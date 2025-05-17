@@ -11,6 +11,7 @@ import {
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "../styles/ProductList.css";
 import ChartComponent from "../components/ChartComponent";
+import EditProductModal from "../components/EditProductModal"; // ✅ Importamos el modal
 
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
@@ -18,19 +19,24 @@ const ProductTable = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [rubrosData, setRubrosData] = useState([]);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // ✅ Función para refrescar la lista de productos
+  const refreshProducts = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/products`);
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/products`);
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      }
-    };
-    fetchProducts();
+    refreshProducts(); // ✅ Cargar productos al inicio
   }, []);
 
   const handleToggleStatus = async (id, currentStatus) => {
@@ -59,11 +65,15 @@ const ProductTable = () => {
     }
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  const filteredProducts = products.filter((product) => {
+    return (
+      (product.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.categoria.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.rubro?.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (categoryFilter === "" || product.categoria === categoryFilter)
-  );
+    );
+  });
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
@@ -74,6 +84,18 @@ const ProductTable = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  // ✅ Mostrar el modal y definir el producto que se va a editar
+  const handleShowModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
+
+  // ✅ Cerrar el modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
   };
 
   return (
@@ -94,7 +116,7 @@ const ProductTable = () => {
       <Form className="d-flex justify-content-between mb-3 flex-wrap">
         <Form.Control
           type="text"
-          placeholder="Buscar por nombre..."
+          placeholder="Buscar por nombre, SKU, categoría o rubro..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-2"
@@ -153,7 +175,7 @@ const ProductTable = () => {
                 <td>{product.nombre}</td>
                 <td>{product.categoria}</td>
                 <td>
-                  <Badge bg="success">
+                  <Badge bg="warning">
                     $
                     {Number(
                       product.precio_publico
@@ -164,7 +186,7 @@ const ProductTable = () => {
                   </Badge>
                 </td>
                 <td>{product.cantidad_stock}</td>
-                <td>{product.sucursal.nombre}</td>
+                <td>{product.sucursal?.nombre || "N/A"}</td>
                 <td>
                   <Form.Check
                     type="switch"
@@ -175,18 +197,20 @@ const ProductTable = () => {
                   />
                 </td>
                 <td>
-                  <div className="d-flex gap-1">
-                    <Button variant="success" size="sm">
-                      <FaEdit />
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDelete(product._id)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </div>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    onClick={() => handleShowModal(product)}
+                  >
+                    <FaEdit />
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(product._id)}
+                  >
+                    <FaTrash />
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -194,36 +218,12 @@ const ProductTable = () => {
         </Table>
       </div>
 
-      {/* ✅ Paginación corregida */}
-      <Pagination className="justify-content-center mt-4">
-        <Pagination.First
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-        />
-        <Pagination.Prev
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        />
-
-        {[...Array(totalPages)].map((_, index) => (
-          <Pagination.Item
-            key={index + 1}
-            active={currentPage === index + 1}
-            onClick={() => handlePageChange(index + 1)}
-          >
-            {index + 1}
-          </Pagination.Item>
-        ))}
-
-        <Pagination.Next
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        />
-        <Pagination.Last
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-        />
-      </Pagination>
+      <EditProductModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        product={selectedProduct}
+        refreshProducts={refreshProducts}
+      />
     </Container>
   );
 };

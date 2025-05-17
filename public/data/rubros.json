@@ -1,0 +1,64 @@
+{
+  "rubros": [
+    {
+      "nombre": "Ropa",
+      "categorias": [
+        {
+          "nombre": "Camisa",
+          "atributos": [
+            {
+              "nombre": "Talla",
+              "tipo": "lista",
+              "valores": ["XS", "S", "M", "L", "XL", "XXL"]
+            },
+            {
+              "nombre": "Color",
+              "tipo": "lista",
+              "valores": ["Rojo", "Azul", "Verde", "Negro", "Blanco"]
+            }
+          ]
+        },
+        {
+          "nombre": "Pantalón",
+          "atributos": [
+            {
+              "nombre": "Talla",
+              "tipo": "lista",
+              "valores": ["Chico", "Mediano", "Grande"]
+            },
+            {
+              "nombre": "Material",
+              "tipo": "texto",
+              "valores": ["Jeans", "Algodón", "Poliéster"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "Automóviles",
+      "categorias": [
+        {
+          "nombre": "SUV",
+          "atributos": [
+            {
+              "nombre": "Color",
+              "tipo": "lista",
+              "valores": ["Negro", "Blanco", "Gris", "Rojo"]
+            },
+            {
+              "nombre": "Combustible",
+              "tipo": "lista",
+              "valores": ["Gasolina", "Diésel", "Eléctrico", "Híbrido"]
+            },
+            {
+              "nombre": "Motor",
+              "tipo": "texto",
+              "valores": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@ const AddProduct = () => {
     nombre: "",
     rubro: "",
     categoria: "",
-    atributos: {},
+    atributos: [],
     precio_costo: "",
     precio_publico: "",
     cantidad_stock: "",
@@ -17,73 +17,88 @@ const AddProduct = () => {
     fabricante: "",
     imagen_url: "",
     sucursal: "",
-    image: "", // ✅ Guardar imagen como archivo
+    image: null,
   });
 
   const [sucursales, setSucursales] = useState([]);
-  const [rubros, setRubros] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [attributes, setAttributes] = useState([]);
+  const [rubrosData, setRubrosData] = useState([]);
 
-  // ✅ Obtener datos desde el backend
+  // ✅ Cargar sucursales desde el backend
   useEffect(() => {
     axios.get(`${API_URL}/sucursales`).then((res) => setSucursales(res.data));
-    axios
-      .get(`${API_URL}/attributes/distinctRubros`)
-      .then((res) => setRubros(res.data));
   }, []);
 
+  // ✅ Obtener `rubros.json` desde el frontend
   useEffect(() => {
-    if (!formData.rubro) return;
-    axios
-      .get(`${API_URL}/attributes/distinctCategories?rubro=${formData.rubro}`)
-      .then((res) => setCategories(res.data));
-  }, [formData.rubro]);
+    const fetchRubros = async () => {
+      try {
+        const response = await fetch("/data/rubros.json");
+        const data = await response.json();
+        setRubrosData(data.rubros);
+      } catch (error) {
+        console.error("Error al cargar rubros:", error);
+      }
+    };
+    fetchRubros();
+  }, []);
 
-  useEffect(() => {
-    if (!formData.rubro || !formData.categoria) return;
-    axios
-      .get(
-        `${API_URL}/attributes?rubro=${formData.rubro}&categoria=${formData.categoria}`
-      )
-      .then((res) => setAttributes(res.data));
-  }, [formData.categoria]);
-
-  // ✅ Manejo de cambios en los campos, incluyendo imágenes y precios
+  // ✅ Manejar cambios en los formularios
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
     if (name === "image") {
       setFormData((prevData) => ({
         ...prevData,
-        image: files.length > 0 ? files[0] : null, // ✅ Guardar archivo correctamente
+        image: files.length > 0 ? files[0] : null,
       }));
     } else if (name === "precio_costo" || name === "precio_publico") {
-      let inputValue = value.replace(/[^0-9]/g, "");
-      while (inputValue.length < 3) inputValue = "0" + inputValue;
-      const integerPart = inputValue.slice(0, -2);
-      const decimalPart = inputValue.slice(-2);
-      const formattedValue = `${integerPart
-        .replace(/^0+(?!$)/, "")
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")},${decimalPart}`;
+      let inputValue = value.replace(/[^0-9]/g, ""); // ✅ Solo números
 
-      setFormData((prevData) => ({ ...prevData, [name]: formattedValue }));
+      while (inputValue.length < 3) {
+        inputValue = "0" + inputValue; // ✅ Rellenar con ceros al inicio
+      }
+
+      const integerPart = inputValue.slice(0, -2); // ✅ Parte entera
+      const decimalPart = inputValue.slice(-2); // ✅ Últimos 2 dígitos como decimales
+
+      const formattedIntegerPart = integerPart
+        .replace(/^0+(?!$)/, "") // ✅ Evitar ceros innecesarios
+        .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // ✅ Separación de miles con puntos
+
+      const formattedValue = `${formattedIntegerPart || "0"},${decimalPart}`;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: formattedValue,
+      }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
-  // ✅ Enviar datos al backend con la imagen sin procesarla
+  // ✅ Enviar datos al backend con la imagen
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formDataToSend = new FormData();
 
-    // ✅ Convertir `atributos` en JSON antes de enviarlo
+    // ✅ Convertir `atributos` a JSON antes de enviarlo
     formDataToSend.append("atributos", JSON.stringify(formData.atributos));
 
+    // ✅ Convertir `precio_costo` y `precio_publico` a formato numérico válido
+    const precioCosto = formData.precio_costo
+      .replace(/\./g, "")
+      .replace(",", ".");
+    const precioPublico = formData.precio_publico
+      .replace(/\./g, "")
+      .replace(",", ".");
+
+    formDataToSend.append("precio_costo", precioCosto);
+    formDataToSend.append("precio_publico", precioPublico);
+
     Object.entries(formData).forEach(([key, value]) => {
-      if (key !== "atributos" && key !== "image") {
+      if (
+        !["atributos", "image", "precio_costo", "precio_publico"].includes(key)
+      ) {
         formDataToSend.append(key, value);
       }
     });
@@ -107,7 +122,7 @@ const AddProduct = () => {
         nombre: "",
         rubro: "",
         categoria: "",
-        atributos: {},
+        atributos: [],
         precio_costo: "",
         precio_publico: "",
         cantidad_stock: "",
@@ -127,14 +142,12 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container pt-5 mt-5 d-flex justify-content-center align-items-center">
+    <div className="container pt-5 mt-5 pb-5 mb-5 d-flex justify-content-center align-items-center">
       <ProductForm
         formData={formData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        rubros={rubros}
-        categories={categories}
-        attributes={attributes}
+        rubros={rubrosData}
         sucursales={sucursales}
         setFormData={setFormData}
       />

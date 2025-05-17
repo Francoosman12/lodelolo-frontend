@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import "../styles/ProductForm.css";
 
@@ -8,83 +7,105 @@ const ProductForm = ({
   handleChange,
   handleSubmit,
   rubros,
-  categories,
   sucursales,
   setFormData,
 }) => {
-  const [attributes, setAttributes] = useState([]);
+  const [rubrosData, setRubrosData] = useState([]);
 
-  // ✅ Obtener atributos desde la API
+  // ✅ Cargar `rubros.json` desde el frontend
   useEffect(() => {
-    const fetchAttributes = async () => {
+    const fetchRubros = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/attributes`
-        );
-        setAttributes(response.data); // 🔥 Guarda los atributos en el estado
+        const response = await fetch("/data/rubros.json");
+        const data = await response.json();
+        setRubrosData(data.rubros);
       } catch (error) {
-        console.error("Error al obtener atributos:", error);
+        console.error("Error al cargar rubros:", error);
       }
     };
-    fetchAttributes();
+    fetchRubros();
   }, []);
 
-  // ✅ Actualizar atributos según la categoría seleccionada
+  // ✅ Manejar cambio de rubro y actualizar categorías
+  const handleRubroChange = (e) => {
+    const selectedRubro = e.target.value;
+    const rubroSeleccionado = rubrosData.find(
+      (r) => r.nombre === selectedRubro
+    );
+
+    setFormData((prevData) => ({
+      ...prevData,
+      rubro: selectedRubro,
+      categorias: rubroSeleccionado ? rubroSeleccionado.categorias : [],
+      categoria: "",
+      atributos: [],
+    }));
+  };
+
+  // ✅ Manejar cambio de categoría y asignar atributos
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
-
-    const matchedAttribute = attributes.find(
-      (attr) => attr.categoria === selectedCategory
+    const categoriaSeleccionada = formData.categorias.find(
+      (c) => c.nombre === selectedCategory
     );
 
     setFormData((prevData) => ({
       ...prevData,
       categoria: selectedCategory,
-      atributos: matchedAttribute ? { Talla: "" } : {}, // ✅ Solo guarda "Talla", no "valores"
+      atributos: categoriaSeleccionada
+        ? categoriaSeleccionada.atributos.map((attr) => ({
+            nombre: attr.nombre,
+            tipo: attr.tipo,
+            valores: attr.valores || [],
+            valor: attr.tipo === "lista" ? attr.valores[0] || "" : "",
+          }))
+        : [],
     }));
   };
 
   return (
-    <Container className="form-container">
+    <Container className="form-container mt-5 pt-5 mb-5 pb-5">
       <h2 className="text-center" style={{ color: "#1D3557" }}>
         Agregar Producto
       </h2>
       <Form onSubmit={handleSubmit} className="pt-4">
         <Row>
           <Col md={6}>
+            {/* Nombre */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Nombre</Form.Label>
+              <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleChange}
                 required
-                style={{ borderColor: "#A8DADC" }}
               />
             </Form.Group>
 
+            {/* Rubro */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Rubro</Form.Label>
+              <Form.Label>Rubro</Form.Label>
               <Form.Select
                 name="rubro"
                 value={formData.rubro}
-                onChange={handleChange}
+                onChange={handleRubroChange}
                 required
               >
                 <option value="" disabled>
                   Seleccione un rubro
                 </option>
-                {rubros.map((rubro) => (
-                  <option key={rubro} value={rubro}>
-                    {rubro}
+                {rubrosData.map((rubro) => (
+                  <option key={rubro.nombre} value={rubro.nombre}>
+                    {rubro.nombre}
                   </option>
                 ))}
               </Form.Select>
             </Form.Group>
 
+            {/* Categoría */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Categoría</Form.Label>
+              <Form.Label>Categoría</Form.Label>
               <Form.Select
                 name="categoria"
                 value={formData.categoria}
@@ -94,13 +115,15 @@ const ProductForm = ({
                 <option value="" disabled>
                   Seleccione una categoría
                 </option>
-                {categories.map((categoria) => (
-                  <option key={categoria} value={categoria}>
-                    {categoria}
+                {formData.categorias?.map((categoria) => (
+                  <option key={categoria.nombre} value={categoria.nombre}>
+                    {categoria.nombre}
                   </option>
                 ))}
               </Form.Select>
             </Form.Group>
+
+            {/* Precio Costo */}
 
             <Form.Group className="mb-3">
               <Form.Label style={{ color: "#213547" }}>Precio Costo</Form.Label>
@@ -109,12 +132,26 @@ const ProductForm = ({
                 name="precio_costo"
                 value={formData.precio_costo || "0,00"}
                 onChange={handleChange}
-                required
+                placeholder="Ejemplo: 1.500,00"
               />
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Sucursal</Form.Label>
+              <Form.Label style={{ color: "#213547" }}>
+                Precio Público
+              </Form.Label>
+              <Form.Control
+                type="text"
+                name="precio_publico"
+                value={formData.precio_publico || "0,00"}
+                onChange={handleChange}
+                placeholder="Ejemplo: 2.000,00"
+              />
+            </Form.Group>
+
+            {/* Sucursal */}
+            <Form.Group className="mb-3">
+              <Form.Label>Sucursal</Form.Label>
               <Form.Select
                 name="sucursal"
                 value={formData.sucursal}
@@ -134,23 +171,9 @@ const ProductForm = ({
           </Col>
 
           <Col md={6}>
+            {/* Cantidad en Stock */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>
-                Precio Público
-              </Form.Label>
-              <Form.Control
-                type="text"
-                name="precio_publico"
-                value={formData.precio_publico || "0,00"}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>
-                Cantidad en Stock
-              </Form.Label>
+              <Form.Label>Cantidad en Stock</Form.Label>
               <Form.Control
                 type="number"
                 name="cantidad_stock"
@@ -160,8 +183,9 @@ const ProductForm = ({
               />
             </Form.Group>
 
+            {/* Descripción */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Descripción</Form.Label>
+              <Form.Label>Descripción</Form.Label>
               <Form.Control
                 as="textarea"
                 name="descripcion"
@@ -171,8 +195,9 @@ const ProductForm = ({
               />
             </Form.Group>
 
+            {/* Fabricante */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Fabricante</Form.Label>
+              <Form.Label>Fabricante</Form.Label>
               <Form.Control
                 type="text"
                 name="fabricante"
@@ -181,8 +206,9 @@ const ProductForm = ({
               />
             </Form.Group>
 
+            {/* Imagen */}
             <Form.Group className="mb-3">
-              <Form.Label style={{ color: "#213547" }}>Imagen</Form.Label>
+              <Form.Label>Imagen</Form.Label>
               <Form.Control
                 type="file"
                 name="image"
@@ -192,43 +218,41 @@ const ProductForm = ({
             </Form.Group>
           </Col>
         </Row>
-        {/* ✅ Renderizar atributos automáticos según la categoría */}
-        {formData.atributos && formData.atributos.Talla !== undefined && (
-          <Form.Group className="mb-3">
-            <Form.Label>Talla</Form.Label>
-            <Form.Select
-              name="Talla"
-              value={formData.atributos.Talla || ""}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  atributos: { Talla: e.target.value }, // ✅ Solo guarda la talla
-                }));
-              }}
-            >
-              {attributes
-                .find((attr) => attr.categoria === formData.categoria)
-                ?.valores.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-            </Form.Select>
-          </Form.Group>
-        )}
 
-        {/* ✅ Asegurar que `setFormData` actualiza los valores al hacer submit */}
-        <Button
-          type="submit"
-          style={{
-            backgroundColor: "#F4A261",
-            borderColor: "#E76F51",
-            color: "#ffffff",
-          }}
-          onClick={() => console.log("Enviando:", formData)}
-        >
-          Agregar Producto
-        </Button>
+        {/* ✅ Renderizar atributos dinámicos */}
+        {Array.isArray(formData.atributos) &&
+          formData.atributos.length > 0 &&
+          formData.atributos.map((attr, index) => (
+            <Form.Group className="mb-3" key={index}>
+              <Form.Label>{attr.nombre}</Form.Label>
+              {attr.tipo === "lista" ? (
+                <Form.Select
+                  name={attr.nombre}
+                  value={attr.valor}
+                  onChange={(e) => {
+                    const updatedAttributes = [...formData.atributos];
+                    updatedAttributes[index].valor = e.target.value;
+                    setFormData({ ...formData, atributos: updatedAttributes });
+                  }}
+                >
+                  {attr.valores.map((val, i) => (
+                    <option key={i} value={val}>
+                      {val}
+                    </option>
+                  ))}
+                </Form.Select>
+              ) : (
+                <Form.Control
+                  type="text"
+                  name={attr.nombre}
+                  value={attr.valor}
+                  onChange={handleChange}
+                />
+              )}
+            </Form.Group>
+          ))}
+
+        <Button type="submit">Agregar Producto</Button>
       </Form>
     </Container>
   );
