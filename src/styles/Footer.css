@@ -1,0 +1,18 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 15px 0;
+  z-index: 1050;
+}
+
+/* ✅ Ajustes para móviles */
+@media (max-width: 768px) {
+  footer {
+    height: 50px;
+  }
+}

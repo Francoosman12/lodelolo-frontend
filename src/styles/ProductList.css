@@ -1,0 +1,110 @@
+/* ✅ Contenedor principal */
+.product-container {
+  width: 100%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* ✅ Título y descripción */
+.product-container h2,
+.product-container p {
+  text-align: center;
+}
+
+/* ✅ Filtros responsivos */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.filters input,
+.filters select {
+  padding: 8px;
+  width: 100%;
+  max-width: 200px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* ✅ Contenedor de tabla responsivo */
+.table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+
+
+/* ✅ Ajuste para gráficos */
+.chart-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 5px;
+}
+
+.card {
+  margin-bottom: 25px;
+}
+
+/* ✅ Ajuste de columnas */
+.table-responsive table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+}
+
+/* ✅ Botones de acciones más pequeños y alineados */
+.d-flex.gap-1 {
+  display: flex;
+  gap: 4px; /* Espaciado mínimo entre botones */
+}
+
+.d-flex.gap-1 button {
+  padding: 4px 8px; /* Tamaño compacto */
+  font-size: 14px;
+}
+
+/* ✅ Ajustes para móviles */
+@media (max-width: 768px) {
+     .product-container {
+    padding: 10px;
+    padding-bottom: 140px;
+  }
+  .filters {
+    flex-direction: column;
+    align-items: center;
+  }
+
+ 
+
+  .table-responsive th,
+  .table-responsive td {
+    font-size: 12px;
+    padding: 6px;
+    white-space: nowrap;
+  }
+
+  .table-responsive img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .action-btn {
+    font-size: 10px;
+    padding: 3px;
+  }
+
+  .pagination {
+    font-size: 10px;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+    max-width: 100%;
+  }
+}

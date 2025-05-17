@@ -1,0 +1,47 @@
+/* ✅ Estilo del Navbar */
+.navigation-bar {
+  background-color: #1D3557 !important;
+}
+
+/* ✅ Ajuste del Offcanvas */
+.offcanvas {
+  background-color: #1D3557 !important;
+}
+
+.offcanvas-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white !important;
+}
+
+.nav-link {
+  font-size: 1rem;
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: #A8DADC !important;
+}
+
+/* ✅ Ajuste del botón toggle */
+.navbar-toggler {
+  flex-shrink: 0;
+  width: auto;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
+}
+
+/* ✅ Ajuste en móviles */
+@media (max-width: 768px) {
+  .offcanvas-body {
+    padding: 10px;
+  }
+
+  .nav-link {
+    padding: 8px;
+  }
+}

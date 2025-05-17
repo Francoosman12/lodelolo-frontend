@@ -1,0 +1,75 @@
+/* Estilos para el Sidebar fijo en pantallas grandes */
+.sidebar-expanded {
+  width: 400px !important;
+  background-color: #bed8ff; /* Azul claro */
+  color: #131953; /* Azul oscuro para el texto */
+  padding: 20px;
+  position: relative;
+}
+
+/* Estilos para el Logo */
+.sidebar-logo {
+  text-align: center;
+}
+
+.logo-img {
+  width: 150px; /* Ajusta el tamaño del logo */
+  height: auto;
+  border-radius: 50%;
+}
+
+.logo-img-offcanvas {
+  width: 60px; /* Ajusta el tamaño del logo */
+  height: auto;
+  border-radius: 50%;
+}
+
+/* Estilos para los enlaces del Sidebar fijo */
+.sidebar-expanded .nav-link {
+  color: #131953 !important; /* Azul oscuro */
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.sidebar-expanded .nav-link:hover {
+  background-color: #6e94ff !important; /* Azul intermedio */
+}
+
+/* Estilos para el Offcanvas en móviles */
+.sidebar-expanded-moviles {
+  background-color: #ebf4ff !important; /* Azul muy claro */
+}
+
+/* Estilos para los enlaces dentro del Offcanvas en móviles */
+.sidebar-expanded-moviles .nav-link {
+  color: #131953 !important; /* Azul más oscuro */
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
+}
+
+.sidebar-expanded-moviles .nav-link:hover {
+  background-color: #bed8ff !important; /* Azul claro */
+}
+
+/* Estilos para los submenús */
+.accordion .accordion-header {
+  background-color: #6e94ff !important; /* Azul intermedio */
+  color: #131953 !important; /* Azul oscuro */
+  font-weight: bold;
+}
+
+.accordion .accordion-body {
+  background-color: #ebf4ff !important; /* Azul muy claro */
+}
+
+.accordion .nav-link {
+  color: #131953 !important;
+}
+
+.accordion .nav-link:hover {
+  background-color: #6e94ff !important;
+}
