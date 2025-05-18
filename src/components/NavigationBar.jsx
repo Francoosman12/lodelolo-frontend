@@ -9,6 +9,14 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {
+  FaHome,
+  FaBoxOpen,
+  FaShoppingCart,
+  FaCog,
+  FaUsers,
+  FaChevronDown,
+} from "react-icons/fa"; // ✅ Importar íconos
 import "../styles/NavigationBar.css"; // ✅ Importación de estilos
 
 const NavigationBar = () => {
@@ -25,8 +33,8 @@ const NavigationBar = () => {
             style={{
               borderColor: "#A8DADC",
               backgroundColor: "rgba(255, 255, 255, 0.2)",
-              flexShrink: 0, // ✅ Evita que el botón se agrande
-              width: "auto", // ✅ Ajusta el ancho automáticamente
+              flexShrink: 0,
+              width: "auto",
             }}
           />
           <Navbar.Brand
@@ -57,10 +65,17 @@ const NavigationBar = () => {
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link as={Link} to="/" style={{ color: "#ffffff" }}>
-                Inicio
+                <span className="d-flex align-items-center gap-2">
+                  <FaHome /> Inicio
+                </span>
               </Nav.Link>
+
               <NavDropdown
-                title="Productos"
+                title={
+                  <span className="d-flex align-items-center gap-2">
+                    <FaBoxOpen /> Productos <FaChevronDown />
+                  </span>
+                }
                 id="products-dropdown"
                 style={{ color: "#ffffff" }}
               >
@@ -69,25 +84,36 @@ const NavigationBar = () => {
                   to="/products/add"
                   style={{ color: "#213547" }}
                 >
-                  Agregar Producto
+                  <span className="d-flex align-items-center gap-2">
+                    ➕ Agregar Producto
+                  </span>
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
                   to="/products/list"
                   style={{ color: "#213547" }}
                 >
-                  Mis Productos
+                  <span className="d-flex align-items-center gap-2">
+                    📦 Mis Productos
+                  </span>
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
                   to="/products/inventory"
                   style={{ color: "#213547" }}
                 >
-                  Inventario
+                  <span className="d-flex align-items-center gap-2">
+                    📊 Inventario
+                  </span>
                 </NavDropdown.Item>
               </NavDropdown>
+
               <NavDropdown
-                title="Usuarios"
+                title={
+                  <span className="d-flex align-items-center gap-2">
+                    <FaUsers /> Usuarios <FaChevronDown />
+                  </span>
+                }
                 id="users-dropdown"
                 style={{ color: "#ffffff" }}
               >
@@ -96,28 +122,40 @@ const NavigationBar = () => {
                   to="/users/create"
                   style={{ color: "#213547" }}
                 >
-                  Crear Usuario
+                  <span className="d-flex align-items-center gap-2">
+                    👤 Crear Usuario
+                  </span>
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
                   to="/users/schedules"
                   style={{ color: "#213547" }}
                 >
-                  Horarios
+                  <span className="d-flex align-items-center gap-2">
+                    ⏳ Horarios
+                  </span>
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   as={Link}
                   to="/users/attendance"
                   style={{ color: "#213547" }}
                 >
-                  Asistencias
+                  <span className="d-flex align-items-center gap-2">
+                    ✅ Asistencias
+                  </span>
                 </NavDropdown.Item>
               </NavDropdown>
+
               <Nav.Link as={Link} to="/sales" style={{ color: "#ffffff" }}>
-                Ventas
+                <span className="d-flex align-items-center gap-2">
+                  <FaShoppingCart /> Ventas
+                </span>
               </Nav.Link>
+
               <Nav.Link as={Link} to="/settings" style={{ color: "#ffffff" }}>
-                Configuración
+                <span className="d-flex align-items-center gap-2">
+                  <FaCog /> Configuración
+                </span>
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>

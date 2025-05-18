@@ -1,0 +1,66 @@
+/* ✅ Estilo general del formulario */
+.schedule-form {
+  background-color: #ebf4ff; /* Color de fondo suave */
+  padding: 20px;
+  border-radius: 8px;
+  
+  max-width: 500px;
+  margin: auto;
+}
+
+/* ✅ Título del formulario */
+.schedule-form h3 {
+  color: #007bff; /* Azul principal */
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* ✅ Estilos para etiquetas */
+.schedule-form label {
+  margin-top: 10px;
+  display: block;
+}
+
+/* ✅ Campos de entrada y selección */
+.schedule-form input,
+.schedule-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+}
+
+/* ✅ Botón de envío */
+.schedule-form button {
+  width: 100%;
+  background-color: #1D3557; /* Azul principal */
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+/* ✅ Efecto hover en el botón */
+.schedule-form button:hover {
+  background-color: #0056b3;
+}
+
+/* ✅ Ajustes responsivos */
+@media (max-width: 600px) {
+  .schedule-form {
+    max-width: 90%;
+  }
+  
+  .schedule-form button {
+    font-size: 16px;
+  }
+}

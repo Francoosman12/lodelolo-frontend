@@ -64,8 +64,8 @@
 }
 
 .d-flex.gap-1 button {
-  padding: 4px 8px; /* Tamaño compacto */
-  font-size: 14px;
+  padding: 6px 8px; /* Tamaño compacto */
+  font-size: 13px;
 }
 
 /* ✅ Ajustes para móviles */

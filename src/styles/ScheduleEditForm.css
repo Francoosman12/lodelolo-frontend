@@ -1,0 +1,92 @@
+/* ✅ Estilo general del modal */
+.schedule-edit-modal .modal-content {
+  background-color: #f8fbff; /* Color suave */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Título del modal */
+.schedule-edit-modal .modal-title {
+  color: #007bff; /* Azul vibrante */
+  font-size: 22px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ✅ Contenedor del formulario dentro del modal */
+.schedule-edit-form {
+  padding: 15px;
+}
+
+/* ✅ Estilos para etiquetas */
+.schedule-edit-form label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1d3557;
+  display: block;
+  margin-top: 10px;
+}
+
+/* ✅ Campos de entrada y selección */
+.schedule-edit-form input,
+.schedule-edit-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+  transition: 0.2s ease-in-out;
+}
+
+/* ✅ Efectos en inputs */
+.schedule-edit-form input:focus,
+.schedule-edit-form select:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.5);
+}
+
+/* ✅ Botón de guardar cambios */
+.schedule-edit-modal .btn-primary {
+  background-color: #1D3557;
+  border: none;
+  font-size: 18px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+}
+
+.schedule-edit-modal .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* ✅ Botón de cancelar */
+.schedule-edit-modal .btn-secondary {
+  background-color: #adb5bd;
+  border: none;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+}
+
+.schedule-edit-modal .btn-secondary:hover {
+  background-color: #6c757d;
+}
+
+/* ✅ Ajustes responsivos */
+@media (max-width: 600px) {
+  .schedule-edit-modal .modal-content {
+    padding: 15px;
+  }
+
+  .schedule-edit-modal .btn-primary,
+  .schedule-edit-modal .btn-secondary {
+    font-size: 16px;
+  }
+}

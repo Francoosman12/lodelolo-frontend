@@ -35,6 +35,11 @@
   box-shadow: none;
 }
 
+/* ✅ Eliminar la flecha automática de Bootstrap en los dropdown */
+#products-dropdown::after, #users-dropdown::after {
+  display: none !important;
+}
+
 /* ✅ Ajuste en móviles */
 @media (max-width: 768px) {
   .offcanvas-body {

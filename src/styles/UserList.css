@@ -1,0 +1,26 @@
+.user-container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.table-responsive {
+  background-color: #ebf4ff;
+  border-radius: 10px;
+}
+
+thead {
+  background-color: #1D3557;
+  color: white;
+}
+
+.d-flex.gap-1 {
+  display: flex;
+  gap: 4px;
+}
+
+/* ✅ Ajustes para dispositivos pequeños */
+@media (max-width: 768px) {
+  .table-responsive {
+    font-size: 14px;
+  }
+}

@@ -14,7 +14,11 @@ const Footer = () => {
     >
       <Container>
         <p>
-          © {new Date().getFullYear()} DevOs. Todos los derechos reservados.
+          © {new Date().getFullYear()}{" "}
+          <a href="https://portfolio-francoosman.vercel.app/" className="ancla">
+            DevOs
+          </a>
+          . Todos los derechos reservados.
         </p>
       </Container>
     </footer>

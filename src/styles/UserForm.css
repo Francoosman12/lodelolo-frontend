@@ -1,0 +1,33 @@
+.user-form-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ebf4ff;
+  border-radius: 10px;
+}
+
+.user-form h2 {
+  color: #1D3557;
+}
+
+.user-form .form-column {
+  flex: 1;
+  min-width: 45%;
+}
+
+.btn-submit {
+  background-color: #1D3557;
+  border: none;
+  width: 100%;
+}
+
+/* ✅ En pantallas pequeñas, los elementos se apilan */
+@media (max-width: 768px) {
+  .user-form .d-flex {
+    flex-direction: column;
+  }
+
+  .user-form .form-column {
+    min-width: 100%;
+  }
+}

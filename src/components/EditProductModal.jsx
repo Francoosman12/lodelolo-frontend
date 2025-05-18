@@ -22,6 +22,11 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [rubrosData, setRubrosData] = useState([]);
+  const [sucursales, setSucursales] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/sucursales`).then((res) => setSucursales(res.data));
+  }, []);
 
   useEffect(() => {
     const fetchRubros = async () => {
@@ -304,14 +309,23 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
                 />
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Sucursal</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
                   name="sucursal"
                   value={formData.sucursal}
                   onChange={handleChange}
-                />
+                  required
+                >
+                  <option value="" disabled>
+                    Seleccione una sucursal
+                  </option>
+                  {sucursales.map((sucursal) => (
+                    <option key={sucursal._id} value={sucursal._id}>
+                      {sucursal.nombre}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
             </Col>
           </Row>

@@ -10,6 +10,15 @@ footer {
   z-index: 1050;
 }
 
+.ancla{
+  text-decoration: none;
+  color: aliceblue;
+}
+
+.ancla:hover{
+  color: blueviolet;
+}
+
 /* ✅ Ajustes para móviles */
 @media (max-width: 768px) {
   footer {

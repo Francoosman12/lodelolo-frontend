@@ -196,21 +196,24 @@ const ProductTable = () => {
                     }
                   />
                 </td>
+
                 <td>
-                  <Button
-                    variant="success"
-                    size="sm"
-                    onClick={() => handleShowModal(product)}
-                  >
-                    <FaEdit />
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(product._id)}
-                  >
-                    <FaTrash />
-                  </Button>
+                  <div className="d-flex gap-1">
+                    <Button
+                      variant="success"
+                      size="sm"
+                      onClick={() => handleShowModal(product)}
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDelete(product._id)}
+                    >
+                      <FaTrash />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}

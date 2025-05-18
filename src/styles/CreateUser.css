@@ -1,0 +1,57 @@
+.user-container {
+  max-width: 100%;
+  margin: auto;
+  padding: 20px;
+}
+
+.user-info {
+  background-color: #ebf4ff;
+  padding: 20px;
+  border-radius: 10px;
+  color: #1D3557;
+}
+
+.user-form {
+  padding: 20px;
+}
+
+/* ✅ Estilos para la barra de navegación */
+.nav-tabs {
+  border-bottom: 2px solid #1D3557; /* Color del borde inferior */
+}
+
+.nav-tabs .nav-link {
+  color: #1D3557 !important; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  padding: 10px 20px; /* Espaciado interno */
+  transition: all 0.3s ease-in-out; /* Animación de transición */
+}
+
+.nav-tabs .nav-link:hover {
+  color: #1D3557; /* Cambia el color al pasar el mouse */
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #1D3557; /* Fondo azul en el botón activo */
+  color: #fff !important; /* Texto blanco en la pestaña activa */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.nav-tabs .nav-item {
+  flex: 1; /* Distribución equitativa en la barra */
+  text-align: center;
+}
+
+
+
+/* ✅ Ajuste de tamaño para dispositivos móviles */
+@media (max-width: 768px) {
+  .user-info, .user-form {
+    width: 100%;
+    text-align: center;
+  }
+  .nav-tabs .nav-link {
+    font-size: 14px; /* Texto más pequeño en pantallas pequeñas */
+    padding: 8px; /* Reducir espaciado en móviles */
+  }
+}
