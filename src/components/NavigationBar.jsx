@@ -16,11 +16,21 @@ import {
   FaCog,
   FaUsers,
   FaChevronDown,
-} from "react-icons/fa"; // ✅ Importar íconos
+  FaSignOutAlt,
+} from "react-icons/fa";
 import "../styles/NavigationBar.css"; // ✅ Importación de estilos
 import logo from "../assets/devos.png"; // ✅ Importar el logo
 
-const NavigationBar = () => {
+import { useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+
+const NavigationBar = ({ user, setUser }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ✅ Eliminar el token de sesión
+    setUser(null); // ✅ Limpiar estado del usuario
+    navigate("/login"); // ✅ Redirigir al Login
+  };
   return (
     <Navbar
       expand="lg"
@@ -71,7 +81,7 @@ const NavigationBar = () => {
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link
                 as={Link}
-                to="/sales"
+                to="/"
                 style={{
                   color: "#ffffff",
                   backgroundColor: "#dc3545" /* 🔥 Fondo rojo intenso */,
@@ -87,7 +97,7 @@ const NavigationBar = () => {
                   <FaShoppingCart /> Vender
                 </span>
               </Nav.Link>
-              <Nav.Link as={Link} to="/" style={{ color: "#ffffff" }}>
+              <Nav.Link as={Link} to="/dashboard" style={{ color: "#ffffff" }}>
                 <span className="d-flex align-items-center gap-2">
                   <FaHome /> Inicio
                 </span>
@@ -215,6 +225,31 @@ const NavigationBar = () => {
                 </span>
               </Nav.Link>
             </Nav>
+            {user && (
+              <Button
+                onClick={handleLogout}
+                style={{
+                  color: "#ffffff",
+                  backgroundColor: "#dc3545" /* 🔥 Fondo rojo intenso */,
+                  border:
+                    "2px solid #ffffff" /* ✅ Borde blanco para contraste */,
+                  padding: "8px 12px" /* ✅ Mejor espaciado */,
+                  borderRadius: "8px" /* ✅ Bordes redondeados */,
+                  fontWeight: "bold" /* ✅ Texto más fuerte */,
+                  transition: "0.3s ease-in-out" /* ✅ Animación suave */,
+                  width: "100%",
+                  display: "flex" /* ✅ Mantener en una sola fila */,
+                  alignItems: "center" /* ✅ Centrar verticalmente */,
+                  justifyContent: "center" /* ✅ Centrar horizontalmente */,
+                  gap: "8px" /* ✅ Espaciado entre icono y texto */,
+                  whiteSpace:
+                    "nowrap" /* ✅ Mantener "Cerrar Sesión" en una sola línea */,
+                  textAlign: "center" /* ✅ Centrar el texto */,
+                }}
+              >
+                <FaSignOutAlt /> Cerrar Sesión
+              </Button>
+            )}
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

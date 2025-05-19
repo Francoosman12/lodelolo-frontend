@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import axios from "axios";
 import UserForm from "../components/UserForm";
 import UserList from "../components/UserList";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
@@ -6,6 +8,23 @@ import "../styles/CreateUser.css";
 
 const CreateUser = () => {
   const [key, setKey] = useState("formulario");
+
+  const handleUserSubmit = async (formData) => {
+    console.log("🚀 Enviando datos al backend:", formData);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users`,
+        formData
+      );
+      console.log("✅ Respuesta del servidor:", response.data);
+    } catch (error) {
+      console.error(
+        "🚨 Error al enviar datos:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   return (
     <Container className="user-container mt-5 mb-5 pt-5 pb-5">
@@ -42,7 +61,8 @@ const CreateUser = () => {
                   </Col>
 
                   <Col xs={12} md={8} className="user-form">
-                    <UserForm />
+                    <UserForm onSubmit={handleUserSubmit} />{" "}
+                    {/* ✅ Ahora UserForm recibe onSubmit */}
                   </Col>
                 </Row>
               </Tab.Pane>

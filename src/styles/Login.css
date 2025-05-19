@@ -1,0 +1,83 @@
+/* ✅ Contenedor principal */
+.login-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* ✅ Título */
+.login-container h2 {
+  color: #007bff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* ✅ Campos del formulario */
+.login-container label {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  transition: border 0.3s ease-in-out;
+}
+
+.login-container input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.5);
+}
+
+/* ✅ Mensaje de error */
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* ✅ Botón de inicio de sesión */
+.login-container button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+/* ✅ Ajuste responsivo */
+@media (max-width: 600px) {
+  .login-container {
+    padding: 20px;
+  }
+
+  .login-container h2 {
+    font-size: 22px;
+  }
+
+  .login-container button {
+    font-size: 16px;
+  }
+}

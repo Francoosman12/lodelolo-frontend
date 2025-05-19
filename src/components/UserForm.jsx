@@ -31,6 +31,8 @@ const UserForm = ({ onSubmit }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  console.log("🔎 onSubmit recibido en UserForm:", onSubmit);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
