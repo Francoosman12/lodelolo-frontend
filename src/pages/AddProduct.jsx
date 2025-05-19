@@ -142,15 +142,41 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container pt-5 mt-5 pb-5 mb-5 d-flex justify-content-center align-items-center">
-      <ProductForm
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        rubros={rubrosData}
-        sucursales={sucursales}
-        setFormData={setFormData}
-      />
+    <div className="container pt-5 mt-5 pb-5 mb-5">
+      <div className="row justify-content-center align-items-center">
+        {/* ✅ Columna izquierda: Información adicional */}
+        <div className="col-md-5 col-12 text-center info-products">
+          <h2>🌟 Agrega un nuevo producto</h2>
+          <p className="text-muted">
+            Recuerda completar todos los campos correctamente. Los productos
+            bien descritos son más fáciles de gestionar.
+          </p>
+          <ul className="list-unstyled text-start">
+            <li>✅ **Nombre claro y preciso**</li>
+            <li>✅ **Precios correctamente formateados**</li>
+            <li>✅ **Categoría y rubro adecuados**</li>
+            <li>✅ **Imagen representativa**</li>
+          </ul>
+          {/* <img
+            src="/images/product-placeholder.png"
+            alt="Ejemplo de producto"
+            className="img-fluid rounded mt-3"
+            width="250"
+          /> */}
+        </div>
+
+        {/* ✅ Columna derecha: Formulario */}
+        <div className="col-md-5 col-12">
+          <ProductForm
+            formData={formData}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            rubros={rubrosData}
+            sucursales={sucursales}
+            setFormData={setFormData}
+          />
+        </div>
+      </div>
     </div>
   );
 };

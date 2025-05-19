@@ -8,6 +8,53 @@
 
 }
 
+/* ✅ Estilo general de la sección informativa */
+.info-products {
+  background-color: #ebf4ff; /* Color suave */
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 450px;
+}
+
+/* ✅ Título con efecto */
+.info-products h2 {
+  color: #1D3557;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* ✅ Párrafos con color tenue */
+.info-products p {
+  font-size: 16px;
+ 
+}
+
+/* ✅ Lista estilizada */
+.info-products ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.info-products li {
+  font-size: 16px;
+  padding: 8px;
+  background-color: #e3f2fd;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* ✅ Imagen con sombra */
+.info-products img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+
+}
+
+
 /* ✅ Título del formulario */
 .form-title {
   text-align: center;
@@ -27,7 +74,7 @@ button {
   padding: 10px;
   font-size: 16px;
   font-weight: bold;
-  background-color: #007bff; /* Azul Bootstrap */
+  background-color: #1D3557; /* Azul Bootstrap */
   color: white;
   border: none;
   border-radius: 5px;
@@ -57,6 +104,18 @@ button:hover {
 
   button,
   .MDBBtn {
+    font-size: 14px;
+  }
+    .info-products {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .info-products h2 {
+    font-size: 22px;
+  }
+
+  .info-products li {
     font-size: 14px;
   }
 }

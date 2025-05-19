@@ -10,7 +10,7 @@
 
 /* ✅ Título del formulario */
 .schedule-form h3 {
-  color: #007bff; /* Azul principal */
+  color: #1D3557; /* Azul principal */
   text-align: center;
   font-size: 22px;
   margin-bottom: 15px;
@@ -53,6 +53,46 @@
 .schedule-form button:hover {
   background-color: #0056b3;
 }
+
+/* ✅ Asegurar que el calendario se muestra por encima de otros elementos */
+.react-datepicker-popper {
+  z-index: 9999 !important; /* 🔥 Aumentamos el z-index */
+}
+
+/* ✅ Ajustar los botones de navegación */
+.react-datepicker__navigation {
+  z-index: 10000 !important; /* 🔥 Aseguramos que sean accesibles */
+  position: flex !important; /* 🔥 Cambiamos la posición para evitar solapamientos */
+  width: 15px !important;
+  margin-top: 0px !important;
+}
+
+/* ✅ Estiliza eventos en el calendario */
+.custom-event {
+  background-color: #007bff !important; /* 🔥 Color azul vibrante */
+  border-radius: 8px;
+  padding: 4px;
+  text-align: center;
+  font-size: 14px;
+ 
+}
+
+/* ✅ Ajustar el hover en eventos */
+.custom-event:hover {
+  background-color: #0056b3 !important;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Mejorar la visualización de los días */
+.custom-day-header {
+  background-color: #1D3557 !important;
+  color: white !important;
+  font-size: 14px;
+  padding: 10px;
+}
+
+
 
 /* ✅ Ajustes responsivos */
 @media (max-width: 600px) {

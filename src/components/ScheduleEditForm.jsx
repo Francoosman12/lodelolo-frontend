@@ -51,12 +51,30 @@ const ScheduleEditForm = ({
     }
   };
 
+  const handleDeleteSchedule = async () => {
+    if (window.confirm("¿Seguro que quieres eliminar este horario?")) {
+      try {
+        await axios.delete(`${API_URL}/schedules/${eventData.id}`);
+        alert("✅ Horario eliminado correctamente!");
+        refreshSchedules(); // ✅ Actualizar la lista de horarios
+        setShowModal(false); // ✅ Cerrar el modal
+      } catch (error) {
+        console.error("❌ Error al eliminar horario:", error);
+        alert("⚠️ Hubo un problema al eliminar el horario.");
+      }
+    }
+  };
+
   return (
-    <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Modal
+      show={showModal}
+      onHide={() => setShowModal(false)}
+      className="schedule-edit-modal"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Editar Horario</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="schedule-edit-form">
         <label>Fecha Inicio:</label>
         <input
           type="date"
@@ -94,9 +112,10 @@ const ScheduleEditForm = ({
         </select>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShowModal(false)}>
-          Cancelar
+        <Button variant="danger" onClick={handleDeleteSchedule}>
+          🗑 Eliminar Horario
         </Button>
+
         <Button variant="primary" onClick={handleSaveChanges}>
           Guardar Cambios
         </Button>

@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Container, Form, Button, Pagination } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import "../styles/UserList.css"; // ✅ Importar estilos
+import "../styles/UserList.css";
+import EditUserModal from "../components/EditUserModal"; // ✅ Importar el modal
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const UserList = ({ handleEditUser }) => {
+const UserList = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -32,17 +35,11 @@ const UserList = ({ handleEditUser }) => {
     }
   };
 
-  const toggleUserStatus = async (id, activo) => {
-    try {
-      await axios.put(`${API_URL}/users/${id}/status`); // ✅ Ruta corregida
-      setUsers(
-        users.map((user) =>
-          user._id === id ? { ...user, activo: !activo } : user
-        )
-      );
-    } catch (error) {
-      console.error("❌ Error al actualizar estado del usuario:", error);
-    }
+  const handleEditUser = (user) => {
+    console.log("Editando usuario:", user);
+    setSelectedUser(user);
+    setShowModal(true);
+    console.log("Estado showModal:", showModal); // ✅ Verifica si cambia a `true`
   };
 
   const filteredUsers = users.filter(
@@ -56,6 +53,13 @@ const UserList = ({ handleEditUser }) => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const refreshUsers = () => {
+    axios
+      .get(`${API_URL}/users`)
+      .then((res) => setUsers(res.data))
+      .catch((error) => console.error("❌ Error al obtener usuarios:", error));
+  };
 
   return (
     <Container className="user-container mt-4">
@@ -91,7 +95,6 @@ const UserList = ({ handleEditUser }) => {
               <th>Teléfono</th>
               <th>Rol</th>
               <th>Sucursal</th>
-              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -103,13 +106,6 @@ const UserList = ({ handleEditUser }) => {
                 <td>{user.telefono}</td>
                 <td>{user.rol}</td>
                 <td>{user.sucursal?.nombre || "Sin sucursal"}</td>
-                <td>
-                  <Form.Check
-                    type="switch"
-                    checked={user.activo}
-                    onChange={() => toggleUserStatus(user._id, user.activo)}
-                  />
-                </td>
                 <td>
                   <div className="d-flex gap-1">
                     <Button
@@ -146,6 +142,14 @@ const UserList = ({ handleEditUser }) => {
           </Pagination.Item>
         ))}
       </Pagination>
+
+      {/* ✅ Llamar a `EditUserModal` cuando se haga clic en "Editar" */}
+      <EditUserModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        user={selectedUser}
+        refreshUsers={refreshUsers}
+      />
     </Container>
   );
 };

@@ -2,6 +2,11 @@
 .navigation-bar {
   background-color: #1D3557 !important;
 }
+.logo{
+  height: 30px;
+  width: 30px;
+
+}
 
 /* ✅ Ajuste del Offcanvas */
 .offcanvas {
@@ -36,7 +41,7 @@
 }
 
 /* ✅ Eliminar la flecha automática de Bootstrap en los dropdown */
-#products-dropdown::after, #users-dropdown::after {
+#products-dropdown::after, #users-dropdown::after, #sales-dropdown::after {
   display: none !important;
 }
 

@@ -82,7 +82,7 @@ const Inventory = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
     XLSX.writeFile(workbook, "Inventario.xlsx");
   };
-
+  
   return (
     <Container className="my-4 mt-5 mb-5 pt-5 pb-5">
       <h1 className="text-center" style={{ color: "#1D3557" }}>

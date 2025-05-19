@@ -18,6 +18,7 @@ import {
   FaChevronDown,
 } from "react-icons/fa"; // ✅ Importar íconos
 import "../styles/NavigationBar.css"; // ✅ Importación de estilos
+import logo from "../assets/devos.png"; // ✅ Importar el logo
 
 const NavigationBar = () => {
   return (
@@ -40,10 +41,14 @@ const NavigationBar = () => {
           <Navbar.Brand
             as={Link}
             to="/"
-            className="p-2"
+            className="p-1"
             style={{ color: "#ffffff" }}
           >
-            Dashboard
+            <div className="d-flex align-items-center gap-1">
+              {" "}
+              <img className="logo" src={logo} alt="" />
+              <h2>DevOs</h2>
+            </div>
           </Navbar.Brand>
         </div>
 
@@ -64,6 +69,24 @@ const NavigationBar = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Nav.Link
+                as={Link}
+                to="/sales"
+                style={{
+                  color: "#ffffff",
+                  backgroundColor: "#dc3545" /* 🔥 Fondo rojo intenso */,
+                  border:
+                    "2px solid #ffffff" /* ✅ Borde blanco para contraste */,
+                  padding: "8px 12px" /* ✅ Mejor espaciado */,
+                  borderRadius: "8px" /* ✅ Bordes redondeados */,
+                  fontWeight: "bold" /* ✅ Texto más fuerte */,
+                  transition: "0.3s ease-in-out" /* ✅ Animación suave */,
+                }}
+              >
+                <span className="d-flex align-items-center gap-2">
+                  <FaShoppingCart /> Vender
+                </span>
+              </Nav.Link>
               <Nav.Link as={Link} to="/" style={{ color: "#ffffff" }}>
                 <span className="d-flex align-items-center gap-2">
                   <FaHome /> Inicio
@@ -146,11 +169,45 @@ const NavigationBar = () => {
                 </NavDropdown.Item>
               </NavDropdown>
 
-              <Nav.Link as={Link} to="/sales" style={{ color: "#ffffff" }}>
-                <span className="d-flex align-items-center gap-2">
-                  <FaShoppingCart /> Ventas
-                </span>
-              </Nav.Link>
+              <NavDropdown
+                title={
+                  <span className="d-flex align-items-center gap-2">
+                    <FaShoppingCart /> Ventas <FaChevronDown />
+                  </span>
+                }
+                id="sales-dropdown"
+                style={{ color: "#ffffff" }}
+              >
+                <NavDropdown.Item
+                  as={Link}
+                  to="/sales/reports"
+                  style={{ color: "#213547" }}
+                >
+                  <span className="d-flex align-items-center gap-2">
+                    📊 Reportes
+                  </span>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item
+                  as={Link}
+                  to="/sales/history"
+                  style={{ color: "#213547" }}
+                >
+                  <span className="d-flex align-items-center gap-2">
+                    💰 Historial
+                  </span>
+                </NavDropdown.Item>
+
+                <NavDropdown.Item
+                  as={Link}
+                  to="/sales/commissions"
+                  style={{ color: "#213547" }}
+                >
+                  <span className="d-flex align-items-center gap-2">
+                    💲 Comisiones
+                  </span>
+                </NavDropdown.Item>
+              </NavDropdown>
 
               <Nav.Link as={Link} to="/settings" style={{ color: "#ffffff" }}>
                 <span className="d-flex align-items-center gap-2">

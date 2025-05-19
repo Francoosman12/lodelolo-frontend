@@ -83,19 +83,21 @@ const ScheduleForm = ({ refreshSchedules }) => {
         ))}
       </select>
 
-      <label>Fecha Inicio:</label>
-      <DatePicker
-        selected={formData.fechaInicio}
-        onChange={(date) => handleChange("fechaInicio", date)}
-        dateFormat="yyyy-MM-dd"
-      />
+      <div className="datepicker-container">
+        <label>Fecha Inicio:</label>
+        <DatePicker
+          selected={formData.fechaInicio}
+          onChange={(date) => handleChange("fechaInicio", date)}
+          dateFormat="yyyy-MM-dd"
+        />
 
-      <label>Fecha Fin:</label>
-      <DatePicker
-        selected={formData.fechaFin}
-        onChange={(date) => handleChange("fechaFin", date)}
-        dateFormat="yyyy-MM-dd"
-      />
+        <label>Fecha Fin:</label>
+        <DatePicker
+          selected={formData.fechaFin}
+          onChange={(date) => handleChange("fechaFin", date)}
+          dateFormat="yyyy-MM-dd"
+        />
+      </div>
 
       <label>Hora Entrada:</label>
       <input

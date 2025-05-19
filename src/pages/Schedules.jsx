@@ -72,7 +72,22 @@ const Schedules = () => {
             events={events}
             selectable={true}
             editable={true}
-            eventClick={handleEventClick} // ✅ Abre el modal
+            eventClick={handleEventClick}
+            eventClassNames={() => "custom-event"}
+            dayHeaderContent={(arg) => {
+              return (
+                <span
+                  style={{
+                    color: "white",
+                    backgroundColor: "#1D3557",
+                    padding: "6px",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {arg.text}
+                </span>
+              );
+            }}
           />
         </Col>
       </Row>
