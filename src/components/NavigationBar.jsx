@@ -2,13 +2,12 @@ import React from "react";
 import {
   Button,
   Container,
-  Form,
   Nav,
   Navbar,
   NavDropdown,
   Offcanvas,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaBoxOpen,
@@ -18,234 +17,185 @@ import {
   FaChevronDown,
   FaSignOutAlt,
 } from "react-icons/fa";
-import "../styles/NavigationBar.css"; // ✅ Importación de estilos
+import "../styles/NavigationBar.css"; // ✅ Importar estilos personalizados
 import logo from "../assets/devos.png"; // ✅ Importar el logo
-
-import { useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
 
 const NavigationBar = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // ✅ Eliminar el token de sesión
+    localStorage.removeItem("user"); // ✅ Eliminar usuario del localStorage
     setUser(null); // ✅ Limpiar estado del usuario
     navigate("/login"); // ✅ Redirigir al Login
   };
+
+  const esAdmin = user?.rol === "administrador"; // ✅ Verificar si es administrador
+
   return (
-    <Navbar
-      expand="lg"
-      style={{ backgroundColor: "#1D3557" }}
-      className="mb-3 fixed-top"
-    >
-      <Container fluid className="d-flex justify-content-between">
+    <Navbar expand="lg" className="navigation-bar fixed-top">
+      <Container
+        fluid
+        className="d-flex justify-content-between align-items-center"
+      >
         <div className="d-flex justify-content-between align-items-center w-100">
-          <Navbar.Toggle
-            aria-controls="offcanvasNavbar"
-            style={{
-              borderColor: "#A8DADC",
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
-              flexShrink: 0,
-              width: "auto",
-            }}
-          />
-          <Navbar.Brand
-            as={Link}
-            to="/"
-            className="p-1"
-            style={{ color: "#ffffff" }}
-          >
+          <Navbar.Brand as={Link} to="/" className="p-1">
             <div className="d-flex align-items-center gap-1">
-              {" "}
-              <img className="logo" src={logo} alt="" />
-              <h2>DevOs</h2>
+              <img className="logo" src={logo} alt="DevOs Logo" />
+              <h2 style={{ color: "white" }}>DevOs</h2>
             </div>
           </Navbar.Brand>
+          <Navbar.Toggle
+            aria-controls="offcanvasNavbar"
+            className="navbar-toggler"
+          />
         </div>
 
         <Navbar.Offcanvas
           id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"
           placement="end"
-          className="bg-dark text-white"
-          style={{ backgroundColor: "#242424" }}
+          className="offcanvas"
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title
               id="offcanvasNavbarLabel"
-              style={{ color: "#A8DADC" }}
+              className="offcanvas-title"
             >
               Menú de Navegación
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
+            <Nav className="navbar-nav justify-content-between flex-grow-1 pe-3">
               <Nav.Link
                 as={Link}
                 to="/"
-                style={{
-                  color: "#ffffff",
-                  backgroundColor: "#dc3545" /* 🔥 Fondo rojo intenso */,
-                  border:
-                    "2px solid #ffffff" /* ✅ Borde blanco para contraste */,
-                  padding: "8px 12px" /* ✅ Mejor espaciado */,
-                  borderRadius: "8px" /* ✅ Bordes redondeados */,
-                  fontWeight: "bold" /* ✅ Texto más fuerte */,
-                  transition: "0.3s ease-in-out" /* ✅ Animación suave */,
-                }}
+                className="nav-link d-flex align-items-center gap-2"
               >
-                <span className="d-flex align-items-center gap-2">
-                  <FaShoppingCart /> Vender
-                </span>
-              </Nav.Link>
-              <Nav.Link as={Link} to="/dashboard" style={{ color: "#ffffff" }}>
-                <span className="d-flex align-items-center gap-2">
-                  <FaHome /> Inicio
-                </span>
+                <FaShoppingCart /> Vender
               </Nav.Link>
 
-              <NavDropdown
-                title={
-                  <span className="d-flex align-items-center gap-2">
-                    <FaBoxOpen /> Productos <FaChevronDown />
-                  </span>
-                }
-                id="products-dropdown"
-                style={{ color: "#ffffff" }}
+              <Nav.Link
+                as={Link}
+                to="/dashboard"
+                className="nav-link d-flex align-items-center gap-2"
               >
-                <NavDropdown.Item
-                  as={Link}
-                  to="/products/add"
-                  style={{ color: "#213547" }}
+                <FaHome /> Inicio
+              </Nav.Link>
+
+              {/* ✅ Solo los administradores pueden acceder a los productos */}
+              {esAdmin && (
+                <NavDropdown
+                  title={
+                    <span className="nav-link">
+                      <FaBoxOpen /> Productos <FaChevronDown />
+                    </span>
+                  }
+                  id="products-dropdown"
                 >
-                  <span className="d-flex align-items-center gap-2">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/products/add"
+                    className="nav-dropdown-item"
+                  >
                     ➕ Agregar Producto
-                  </span>
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/products/list"
-                  style={{ color: "#213547" }}
-                >
-                  <span className="d-flex align-items-center gap-2">
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/products/list"
+                    className="nav-dropdown-item"
+                  >
                     📦 Mis Productos
-                  </span>
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/products/inventory"
-                  style={{ color: "#213547" }}
-                >
-                  <span className="d-flex align-items-center gap-2">
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/products/inventory"
+                    className="nav-dropdown-item"
+                  >
                     📊 Inventario
-                  </span>
-                </NavDropdown.Item>
-              </NavDropdown>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
 
-              <NavDropdown
-                title={
-                  <span className="d-flex align-items-center gap-2">
-                    <FaUsers /> Usuarios <FaChevronDown />
-                  </span>
-                }
-                id="users-dropdown"
-                style={{ color: "#ffffff" }}
-              >
-                <NavDropdown.Item
-                  as={Link}
-                  to="/users/create"
-                  style={{ color: "#213547" }}
+              {/* ✅ Solo los administradores pueden acceder a usuarios */}
+              {esAdmin && (
+                <NavDropdown
+                  title={
+                    <span className="nav-link">
+                      <FaUsers /> Usuarios <FaChevronDown />
+                    </span>
+                  }
+                  id="users-dropdown"
                 >
-                  <span className="d-flex align-items-center gap-2">
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/users/create"
+                    className="nav-dropdown-item"
+                  >
                     👤 Crear Usuario
-                  </span>
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/users/schedules"
-                  style={{ color: "#213547" }}
-                >
-                  <span className="d-flex align-items-center gap-2">
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/users/schedules"
+                    className="nav-dropdown-item"
+                  >
                     ⏳ Horarios
-                  </span>
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/users/attendance"
-                  style={{ color: "#213547" }}
-                >
-                  <span className="d-flex align-items-center gap-2">
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/users/attendance"
+                    className="nav-dropdown-item"
+                  >
                     ✅ Asistencias
-                  </span>
-                </NavDropdown.Item>
-              </NavDropdown>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
 
               <NavDropdown
                 title={
-                  <span className="d-flex align-items-center gap-2">
+                  <span className="nav-link">
                     <FaShoppingCart /> Ventas <FaChevronDown />
                   </span>
                 }
                 id="sales-dropdown"
-                style={{ color: "#ffffff" }}
               >
                 <NavDropdown.Item
                   as={Link}
                   to="/sales/reports"
-                  style={{ color: "#213547" }}
+                  className="nav-dropdown-item"
                 >
-                  <span className="d-flex align-items-center gap-2">
-                    📊 Reportes
-                  </span>
+                  📊 Reportes
                 </NavDropdown.Item>
-
                 <NavDropdown.Item
                   as={Link}
                   to="/sales/history"
-                  style={{ color: "#213547" }}
+                  className="nav-dropdown-item"
                 >
-                  <span className="d-flex align-items-center gap-2">
-                    💰 Historial
-                  </span>
+                  💰 Historial
                 </NavDropdown.Item>
-
                 <NavDropdown.Item
                   as={Link}
                   to="/sales/commissions"
-                  style={{ color: "#213547" }}
+                  className="nav-dropdown-item"
                 >
-                  <span className="d-flex align-items-center gap-2">
-                    💲 Comisiones
-                  </span>
+                  💲 Comisiones
                 </NavDropdown.Item>
               </NavDropdown>
 
-              <Nav.Link as={Link} to="/settings" style={{ color: "#ffffff" }}>
-                <span className="d-flex align-items-center gap-2">
+              {/* ✅ Solo los administradores pueden acceder a configuración */}
+              {esAdmin && (
+                <Nav.Link
+                  as={Link}
+                  to="/settings"
+                  className="nav-link d-flex align-items-center gap-2"
+                >
                   <FaCog /> Configuración
-                </span>
-              </Nav.Link>
+                </Nav.Link>
+              )}
             </Nav>
+
             {user && (
               <Button
                 onClick={handleLogout}
-                style={{
-                  color: "#ffffff",
-                  backgroundColor: "#dc3545" /* 🔥 Fondo rojo intenso */,
-                  border:
-                    "2px solid #ffffff" /* ✅ Borde blanco para contraste */,
-                  padding: "8px 12px" /* ✅ Mejor espaciado */,
-                  borderRadius: "8px" /* ✅ Bordes redondeados */,
-                  fontWeight: "bold" /* ✅ Texto más fuerte */,
-                  transition: "0.3s ease-in-out" /* ✅ Animación suave */,
-                  width: "100%",
-                  display: "flex" /* ✅ Mantener en una sola fila */,
-                  alignItems: "center" /* ✅ Centrar verticalmente */,
-                  justifyContent: "center" /* ✅ Centrar horizontalmente */,
-                  gap: "8px" /* ✅ Espaciado entre icono y texto */,
-                  whiteSpace:
-                    "nowrap" /* ✅ Mantener "Cerrar Sesión" en una sola línea */,
-                  textAlign: "center" /* ✅ Centrar el texto */,
-                }}
+                className="nav-link logout-btn d-flex align-items-center gap-1"
               >
                 <FaSignOutAlt /> Cerrar Sesión
               </Button>

@@ -1,11 +1,13 @@
 /* ✅ Estilo del Navbar */
 .navigation-bar {
   background-color: #1D3557 !important;
+  padding: 10px;
 }
-.logo{
+
+/* ✅ Logo */
+.logo {
   height: 30px;
   width: 30px;
-
 }
 
 /* ✅ Ajuste del Offcanvas */
@@ -13,15 +15,18 @@
   background-color: #1D3557 !important;
 }
 
+/* ✅ Título del Offcanvas */
 .offcanvas-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: white !important;
 }
 
+/* ✅ Estilo de enlaces */
 .nav-link {
   font-size: 1rem;
   color: white !important;
+  transition: 0.3s ease-in-out; /* ✅ Transición suave */
 }
 
 .nav-link:hover {
@@ -29,9 +34,17 @@
 }
 
 /* ✅ Ajuste del botón toggle */
+/* ✅ Estilo del botón toggle del Navbar con colores diferentes */
 .navbar-toggler {
   flex-shrink: 0;
   width: auto;
+  border: 2px solid #A8DADC !important; /* ✅ Nuevo color de borde */
+  background-color: #457B9D !important; /* ✅ Nuevo color de fondo */
+  color: black !important; /* ✅ Cambio de color */
+}
+
+.navbar-toggler-icon {
+  color: black !important; /* ✅ Ícono con nuevo color */
 }
 
 .navbar-toggler:focus,
@@ -40,9 +53,43 @@
   box-shadow: none;
 }
 
-/* ✅ Eliminar la flecha automática de Bootstrap en los dropdown */
-#products-dropdown::after, #users-dropdown::after, #sales-dropdown::after {
+/* ✅ Estilo de los dropdown */
+#products-dropdown::after,
+#users-dropdown::after,
+#sales-dropdown::after {
   display: none !important;
+}
+
+/* ✅ Estilo de los Dropdown Items */
+.nav-dropdown-item {
+  color: #1D3557 !important; /* ✅ Letras negras */
+  font-size: 1rem;
+  padding: 8px 12px;
+}
+
+.nav-dropdown-item:hover {
+  background-color: #A8DADC !important; /* ✅ Color de fondo al pasar el mouse */
+}
+
+/* ✅ Estilos del botón Cerrar Sesión en una sola línea */
+.logout-btn {
+  color: #ffffff !important;
+  background-color: #dc3545 !important;
+  border: 2px solid white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap; /* ✅ Mantiene el texto en una sola línea */
+  text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+  background-color: #c82333 !important;
 }
 
 /* ✅ Ajuste en móviles */
@@ -54,4 +101,24 @@
   .nav-link {
     padding: 8px;
   }
+}
+
+/* ✅ Estilos mejorados del botón Cerrar Sesión */
+.logout-btn {
+  color: #ffffff !important;
+  background-color: #dc3545 !important;
+  border: 2px solid white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.3s ease-in-out;
+  margin-top: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #c82333 !important;
 }
