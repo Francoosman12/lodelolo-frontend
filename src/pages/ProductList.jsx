@@ -41,7 +41,7 @@ const ProductTable = () => {
 
   const handleToggleStatus = async (id, currentStatus) => {
     try {
-      await axios.put(`${API_URL}/products/status/${id}`, {
+      await axios.put(`${API_URL}/products/toggleStatus/${id}`, {
         activo: !currentStatus,
       });
       setProducts(

@@ -70,7 +70,7 @@ const NavigationBar = ({ user, setUser }) => {
                 to="/"
                 className="nav-link d-flex align-items-center gap-2"
               >
-                <FaShoppingCart /> Vender
+                <FaShoppingCart /> ¡Vender!
               </Nav.Link>
 
               <Nav.Link
