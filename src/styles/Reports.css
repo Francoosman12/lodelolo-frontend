@@ -1,0 +1,68 @@
+/* 🌟 Contenedor principal con padding y espaciado */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 📊 Título del reporte */
+.titulo {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1D3557 !important;
+}
+
+/* 📋 Tabla de reportes con bordes y sombras */
+.table-responsive {
+ 
+  border-radius: 8px;
+}
+
+/* 🔲 Encabezados de la tabla */
+thead {
+  background-color: #343a40; /* Color oscuro */
+  color: white;
+  text-align: center;
+}
+
+/* 📌 Celdas de la tabla */
+td, th {
+  padding: 12px;
+  text-align: center;
+  color: #1D3557 !important; /* Letras negras */
+}
+
+/* 🔵 Filas alternas para mejorar la legibilidad */
+tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* 💰 Estilo para la columna de Total */
+td.fw-bold {
+  font-size: 16px;
+  color: #28a745; /* Verde */
+}
+
+/* ⚠ Mensajes de advertencia */
+.text-danger {
+  font-weight: bold;
+}
+
+/* ✨ Efecto hover en la tabla */
+tr:hover {
+  background-color: #e9ecef;
+}
+
+/* 🖥 Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  h1.text-primary {
+    font-size: 24px;
+  }
+  
+  td, th {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
