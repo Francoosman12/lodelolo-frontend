@@ -173,10 +173,10 @@ const Sales = ({ user }) => {
   };
 
   return (
-    <Container fluid className="sales-container mt-5 mb-5 pt-5 pb-5">
+    <Container fluid className="sales-container">
       <Row>
         {/* ✅ Sección 1: Carrito */}
-        <Col md={4} className="cart-section">
+        <Col md={4} className="cart-section mt-5 pt-5 mb-5 pb-5">
           <h3>🛒 Carrito de compras</h3>
           {cart.length === 0 ? (
             <p className="text-muted">Aún no hay productos agregados.</p>
@@ -287,13 +287,13 @@ const Sales = ({ user }) => {
         </Col>
 
         {/* ✅ Sección 2: Productos */}
-        <Col md={8}>
+        <Col md={8} className="product-section pt-4">
           <Form.Control
             type="text"
             placeholder="🔍 Buscar producto por nombre, SKU o categoría..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="search-bar mb-3"
+            className="search-bar mb-3 mt-5"
           />
           <Row>
             {products.length === 0 ? (
@@ -302,17 +302,18 @@ const Sales = ({ user }) => {
               </p>
             ) : (
               products
+                .filter((product) => product.activo === true) // ✅ Filtrar productos activos
                 .filter(
                   (product) =>
-                    (product.sku && product.sku.includes(search)) || // ✅ Verificar que `sku` no sea `undefined`
+                    (product.sku && product.sku.includes(search)) ||
                     (product.nombre &&
                       product.nombre
                         .toLowerCase()
-                        .includes(search.toLowerCase())) || // ✅ Verificar `nombre`
+                        .includes(search.toLowerCase())) ||
                     (product.categoria &&
                       product.categoria
                         .toLowerCase()
-                        .includes(search.toLowerCase())) // ✅ Verificar `categoria`
+                        .includes(search.toLowerCase()))
                 )
                 .map((product) => (
                   <Col md={4} key={product._id}>
@@ -327,8 +328,7 @@ const Sales = ({ user }) => {
                       <Card.Body>
                         <Card.Title>
                           {product.nombre || "Sin nombre"}
-                        </Card.Title>{" "}
-                        {/* ✅ Evita `undefined` */}
+                        </Card.Title>
                         <Card.Text>
                           ${parseFloat(product.precio_publico || 0).toFixed(2)}
                         </Card.Text>

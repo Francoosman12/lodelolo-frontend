@@ -2,11 +2,12 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: 60px; /* ✅ Reduce la altura */
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 15px 0;
+  padding: 8px 0; /* ✅ Menos padding */
   z-index: 1050;
 }
 
@@ -22,6 +23,7 @@ footer {
 /* ✅ Ajustes para móviles */
 @media (max-width: 768px) {
   footer {
-    height: 50px;
+    height: 35px; /* ✅ Más pequeño en móviles */
+    padding: 6px 0; /* ✅ Ajuste para pantallas pequeñas */
   }
 }

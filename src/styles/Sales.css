@@ -4,22 +4,44 @@
 
 /* ✅ Sección del carrito */
 .cart-section {
+  position: sticky; /* ✅ Mantiene el carrito fijo */
+  top: 0;
   background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 1000;
+  max-width: 100%; /* ✅ Asegura que no sobresalga */
+  box-sizing: border-box; /* ✅ Incluye padding y border en el ancho total */
 }
 
+/* ✅ Ajustar la tabla del carrito para ser responsive */
 .cart-table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%; /* ✅ Asegura que no sobresalga */
+  table-layout: fixed; /* ✅ Hace que las columnas tengan un ancho fijo */
+  overflow-x: auto; /* ✅ Activa el scroll horizontal si es necesario */
+  display: block; /* ✅ Evita problemas de desbordamiento */
 }
 
-.cart-table th, .cart-table td {
+.cart-table th,
+.cart-table td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
   text-align: center;
+  background-color: #f8f9fa;
+  word-wrap: break-word; /* ✅ Evita texto desbordado */
 }
+
+
+
+/* ✅ Permitir que la sección de productos tenga scroll */
+.product-section {
+  overflow-y: auto; /* ✅ Activa el scroll solo en productos */
+  max-height: calc(100vh - 50px); /* ✅ Ajuste dinámico para mejor visualización */
+}
+
+
+
+
 
 .cart-img {
   width: 40px;
@@ -87,4 +109,17 @@
   height: 200px; /* ✅ Todas las imágenes tendrán la misma altura */
   object-fit: cover; /* ✅ Recorta la imagen manteniendo proporciones */
   border-radius: 10px;
+}
+
+
+/* ✅ Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .cart-section {
+    padding: 10px;
+  }
+
+  .cart-table {
+    overflow-x: auto; /* ✅ Permite scroll horizontal en móviles */
+    display: block;
+  }
 }
