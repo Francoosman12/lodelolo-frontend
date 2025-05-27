@@ -35,7 +35,7 @@ const Reports = () => {
   };
 
   return (
-    <div className="container mt-5 pt-5 px-4">
+    <div className="container mt-5 pt-5 mb-5 pb-5 px-4">
       <h1 className="titulo text-center mb-4">📊 Reporte de Ventas</h1>
 
       <div className="table-responsive">
