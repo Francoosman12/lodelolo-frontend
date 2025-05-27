@@ -11,6 +11,15 @@ const ProductForm = ({
   setFormData,
 }) => {
   const [rubrosData, setRubrosData] = useState([]);
+  // Estado para controlar si el SKU se genera automáticamente
+  const [autoGenerateSKU, setAutoGenerateSKU] = useState(true);
+
+  // Manejar el cambio de selección
+  const handleSKUToggle = (e) => {
+    const isAuto = e.target.value === "auto";
+    setAutoGenerateSKU(isAuto);
+    setFormData({ ...formData, sku: isAuto ? "" : formData.sku });
+  };
 
   // ✅ Cargar `rubros.json` desde el frontend
   useEffect(() => {
@@ -204,6 +213,37 @@ const ProductForm = ({
                 value={formData.fabricante}
                 onChange={handleChange}
               />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>SKU</Form.Label>
+              <div>
+                <Form.Check
+                  type="radio"
+                  label="Generar automáticamente"
+                  name="skuOption"
+                  value="auto"
+                  checked={autoGenerateSKU}
+                  onChange={handleSKUToggle}
+                />
+                <Form.Check
+                  type="radio"
+                  label="Asignar manualmente"
+                  name="skuOption"
+                  value="manual"
+                  checked={!autoGenerateSKU}
+                  onChange={handleSKUToggle}
+                />
+              </div>
+              {!autoGenerateSKU && (
+                <Form.Control
+                  type="text"
+                  name="sku"
+                  value={formData.sku}
+                  onChange={handleChange}
+                  placeholder="Ingrese SKU manualmente"
+                />
+              )}
             </Form.Group>
 
             {/* Imagen */}

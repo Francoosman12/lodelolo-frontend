@@ -1,60 +1,103 @@
 {
   "rubros": [
     {
-      "nombre": "Ropa",
+      "nombre": "Drugstore",
       "categorias": [
         {
-          "nombre": "Camisa",
+          "nombre": "Golosinas",
           "atributos": [
             {
-              "nombre": "Talla",
+              "nombre": "Tipo",
               "tipo": "lista",
-              "valores": ["XS", "S", "M", "L", "XL", "XXL"]
+              "valores": ["Chocolate", "Caramelos", "Chicles", "Gomitas"]
             },
             {
-              "nombre": "Color",
-              "tipo": "lista",
-              "valores": ["Rojo", "Azul", "Verde", "Negro", "Blanco"]
+              "nombre": "Marca",
+              "tipo": "texto",
+              "valores": [
+                "Cadbury", "Nestlé", "Mars", "Haribo", "Tic Tac",
+                "M&M's", "Skittles", "Bubbaloo", "Chocoramo", "Bon o Bon"
+              ]
             }
           ]
         },
         {
-          "nombre": "Pantalón",
+          "nombre": "Bebidas sin alcohol",
           "atributos": [
             {
-              "nombre": "Talla",
+              "nombre": "Tipo",
               "tipo": "lista",
-              "valores": ["Chico", "Mediano", "Grande"]
+              "valores": ["Agua", "Jugos", "Gaseosas", "Energéticas"]
             },
             {
-              "nombre": "Material",
-              "tipo": "texto",
-              "valores": ["Jeans", "Algodón", "Poliéster"]
+              "nombre": "Tamaño",
+              "tipo": "lista",
+              "valores": ["500ml", "1L", "1.5L", "2L"]
             }
           ]
-        }
-      ]
-    },
-    {
-      "nombre": "Automóviles",
-      "categorias": [
+        },
         {
-          "nombre": "SUV",
+          "nombre": "Bebidas con alcohol",
           "atributos": [
             {
-              "nombre": "Color",
+              "nombre": "Tipo",
               "tipo": "lista",
-              "valores": ["Negro", "Blanco", "Gris", "Rojo"]
+              "valores": ["Cerveza", "Vino", "Whisky", "Vodka", "Fernet"]
             },
             {
-              "nombre": "Combustible",
-              "tipo": "lista",
-              "valores": ["Gasolina", "Diésel", "Eléctrico", "Híbrido"]
-            },
-            {
-              "nombre": "Motor",
+              "nombre": "Grado Alcohólico",
               "tipo": "texto",
               "valores": []
+            }
+          ]
+        },
+        {
+          "nombre": "Lácteos",
+          "atributos": [
+            {
+              "nombre": "Tipo",
+              "tipo": "lista",
+              "valores": ["Leche", "Yogur", "Queso", "Manteca"]
+            },
+            {
+              "nombre": "Contenido de Grasa",
+              "tipo": "lista",
+              "valores": ["Entero", "Descremado", "Semi-descremado"]
+            }
+          ]
+        },
+        {
+          "nombre": "Snacks",
+          "atributos": [
+            {
+              "nombre": "Tipo",
+              "tipo": "lista",
+              "valores": ["Papas fritas", "Maní", "Nachos", "Mix de frutos secos"]
+            },
+            {
+              "nombre": "Peso",
+              "tipo": "lista",
+              "valores": ["50g", "100g", "200g"]
+            }
+          ]
+        },
+        {
+          "nombre": "Cigarrillos y Tabaco",
+          "atributos": [
+            {
+              "nombre": "Tipo",
+              "tipo": "lista",
+              "valores": ["Cigarrillos", "Tabaco suelto", "Filtros"]
+            },
+            {
+              "nombre": "Marca",
+              "tipo": "lista",
+              "valores": [
+                "Marlboro", "Philip Morris", "Camel", "Lucky Strike",
+                "Chesterfield", "Kent", "Parliament", "Virginia Slims",
+                "Pall Mall", "Fortuna", "L&M", "Dunhill", "Sheratan",
+                "Jockey Club", "Nevada", "Red Point", "Derby", "Next"
+              ]
             }
           ]
         }

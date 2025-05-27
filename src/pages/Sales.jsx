@@ -113,13 +113,16 @@ const Sales = ({ user }) => {
       },
     };
 
-    console.log("🛒 Datos enviados al backend:", saleData); // ✅ Verificar formato de datos
+    console.log("🛒 Datos enviados al backend:", saleData);
 
     try {
       const response = await axios.post(`${API_URL}/sales`, saleData);
       console.log("✅ Venta registrada:", response.data);
       alert("🎉 Venta realizada con éxito!");
       setCart([]);
+
+      // 🔄 Recargar la página después de completar la venta
+      window.location.reload();
     } catch (error) {
       console.error(
         "❌ Error al registrar la venta:",
@@ -287,7 +290,7 @@ const Sales = ({ user }) => {
         <Col md={8}>
           <Form.Control
             type="text"
-            placeholder="🔍 Buscar producto..."
+            placeholder="🔍 Buscar producto por nombre, SKU o categoría..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="search-bar mb-3"
@@ -299,8 +302,17 @@ const Sales = ({ user }) => {
               </p>
             ) : (
               products
-                .filter((product) =>
-                  product.nombre.toLowerCase().includes(search.toLowerCase())
+                .filter(
+                  (product) =>
+                    (product.sku && product.sku.includes(search)) || // ✅ Verificar que `sku` no sea `undefined`
+                    (product.nombre &&
+                      product.nombre
+                        .toLowerCase()
+                        .includes(search.toLowerCase())) || // ✅ Verificar `nombre`
+                    (product.categoria &&
+                      product.categoria
+                        .toLowerCase()
+                        .includes(search.toLowerCase())) // ✅ Verificar `categoria`
                 )
                 .map((product) => (
                   <Col md={4} key={product._id}>
@@ -313,15 +325,32 @@ const Sales = ({ user }) => {
                         }
                       />
                       <Card.Body>
-                        <Card.Title>{product.nombre}</Card.Title>
+                        <Card.Title>
+                          {product.nombre || "Sin nombre"}
+                        </Card.Title>{" "}
+                        {/* ✅ Evita `undefined` */}
                         <Card.Text>
                           ${parseFloat(product.precio_publico || 0).toFixed(2)}
+                        </Card.Text>
+                        <Card.Text
+                          className={
+                            product.cantidad_stock > 0
+                              ? "text-success"
+                              : "text-danger"
+                          }
+                        >
+                          {product.cantidad_stock > 0
+                            ? `Stock disponible: ${product.cantidad_stock}`
+                            : "❌ Agotado"}
                         </Card.Text>
                         <Button
                           variant="primary"
                           onClick={() => handleAddToCart(product)}
+                          disabled={product.cantidad_stock === 0}
                         >
-                          Agregar al carrito
+                          {product.cantidad_stock > 0
+                            ? "Agregar al carrito"
+                            : "Sin stock"}
                         </Button>
                       </Card.Body>
                     </Card>

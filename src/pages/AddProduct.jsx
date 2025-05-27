@@ -22,6 +22,7 @@ const AddProduct = () => {
 
   const [sucursales, setSucursales] = useState([]);
   const [rubrosData, setRubrosData] = useState([]);
+  const [autoGenerateSKU, setAutoGenerateSKU] = useState(true);
 
   // ✅ Cargar sucursales desde el backend
   useEffect(() => {
@@ -81,10 +82,13 @@ const AddProduct = () => {
     e.preventDefault();
     const formDataToSend = new FormData();
 
-    // ✅ Convertir `atributos` a JSON antes de enviarlo
+    // ✅ Si el usuario asignó manualmente el SKU, enviarlo en la solicitud
+    if (!autoGenerateSKU && formData.sku.trim() !== "") {
+      formDataToSend.append("sku", formData.sku);
+    }
+
     formDataToSend.append("atributos", JSON.stringify(formData.atributos));
 
-    // ✅ Convertir `precio_costo` y `precio_publico` a formato numérico válido
     const precioCosto = formData.precio_costo
       .replace(/\./g, "")
       .replace(",", ".");
@@ -126,6 +130,7 @@ const AddProduct = () => {
         precio_costo: "",
         precio_publico: "",
         cantidad_stock: "",
+        sku: "", // ✅ Limpiar SKU manual después de enviarlo
         descripcion: "",
         fabricante: "",
         imagen_url: "",
