@@ -20,7 +20,9 @@ const Schedules = () => {
       .then((res) => {
         const formattedEvents = res.data.map((schedule) => ({
           id: schedule._id,
-          title: `${schedule.usuario.nombre} (${schedule.tipoPeriodo})`,
+          title: `${schedule.usuario?.nombre || "Usuario desconocido"} (${
+            schedule.tipoPeriodo
+          })`, // ✅ Previene el error
           start: new Date(schedule.fechaInicio).toISOString().split("T")[0],
           end: new Date(
             new Date(schedule.fechaFin).setDate(
@@ -36,7 +38,7 @@ const Schedules = () => {
               ? "green"
               : "red",
           extendedProps: {
-            usuario: schedule.usuario,
+            usuario: schedule.usuario || { nombre: "Usuario desconocido" }, // ✅ Agrega un fallback si es `null`
             tipoPeriodo: schedule.tipoPeriodo,
           },
         }));

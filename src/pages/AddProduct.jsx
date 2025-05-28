@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProductForm from "../components/ProductForm";
 import axios from "axios";
+import "../styles/AddProduct.css"; // Asegúrate de tener este archivo CSS
+import logo from "../assets/4.png"; // Asegúrate de tener esta imagen
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -148,26 +150,28 @@ const AddProduct = () => {
 
   return (
     <div className="container pt-5 mt-5 pb-5 mb-5">
-      <div className="row justify-content-center align-items-center">
+      <div className="row justify-content-center align-items-center ">
         {/* ✅ Columna izquierda: Información adicional */}
-        <div className="col-md-5 col-12 text-center info-products">
-          <h2>🌟 Agrega un nuevo producto</h2>
-          <p className="text-muted">
-            Recuerda completar todos los campos correctamente. Los productos
-            bien descritos son más fáciles de gestionar.
-          </p>
-          <ul className="list-unstyled text-start">
-            <li>✅ **Nombre claro y preciso**</li>
-            <li>✅ **Precios correctamente formateados**</li>
-            <li>✅ **Categoría y rubro adecuados**</li>
-            <li>✅ **Imagen representativa**</li>
-          </ul>
-          {/* <img
-            src="/images/product-placeholder.png"
-            alt="Ejemplo de producto"
-            className="img-fluid rounded mt-3"
-            width="250"
-          /> */}
+        <div className="col-md-5 col-12 text-center info-products  ">
+          <div className="pt-4 pb-4 px-3">
+            <h2>🌟 Agrega un nuevo producto</h2>
+            <p className="text-muted">
+              Recuerda completar todos los campos correctamente. Los productos
+              bien descritos son más fáciles de gestionar.
+            </p>
+            <ul className="list-unstyled text-start">
+              <li>✅ Nombre claro y preciso</li>
+              <li>✅ Precios correctamente formateados</li>
+              <li>✅ Categoría y rubro adecuados</li>
+              <li>✅ Imagen representativa</li>
+            </ul>
+            <img
+              src={logo}
+              alt="Ejemplo de producto"
+              className="img-fluid rounded mt-3"
+              width="250"
+            />
+          </div>
         </div>
 
         {/* ✅ Columna derecha: Formulario */}

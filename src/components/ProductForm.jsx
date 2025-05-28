@@ -73,7 +73,7 @@ const ProductForm = ({
   };
 
   return (
-    <Container className="form-container mt-5 pt-5 mb-5 pb-5">
+    <Container className="form-container px-3 ">
       <h2 className="text-center" style={{ color: "#1D3557" }}>
         Agregar Producto
       </h2>
