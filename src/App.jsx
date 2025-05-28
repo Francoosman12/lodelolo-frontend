@@ -63,17 +63,37 @@ const App = () => {
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
+
+        {/* ✅ Solo los administradores pueden acceder a reportes, historial y comisiones */}
         <Route
           path="/sales/reports"
-          element={user ? <Reports /> : <Navigate to="/login" />}
+          element={
+            user && user.rol === "administrador" ? (
+              <Reports />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/sales/history"
-          element={user ? <History /> : <Navigate to="/login" />}
+          element={
+            user && user.rol === "administrador" ? (
+              <History />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/sales/commissions"
-          element={user ? <Commissions /> : <Navigate to="/login" />}
+          element={
+            user && user.rol === "administrador" ? (
+              <Commissions />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
 
         {/* ✅ Solo los administradores pueden acceder a productos */}

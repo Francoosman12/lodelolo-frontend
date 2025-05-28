@@ -148,37 +148,38 @@ const NavigationBar = ({ user, setUser }) => {
                   </NavDropdown.Item>
                 </NavDropdown>
               )}
-
-              <NavDropdown
-                title={
-                  <span className="nav-link">
-                    <FaShoppingCart /> Ventas <FaChevronDown />
-                  </span>
-                }
-                id="sales-dropdown"
-              >
-                <NavDropdown.Item
-                  as={Link}
-                  to="/sales/reports"
-                  className="nav-dropdown-item"
+              {esAdmin && (
+                <NavDropdown
+                  title={
+                    <span className="nav-link">
+                      <FaShoppingCart /> Ventas <FaChevronDown />
+                    </span>
+                  }
+                  id="sales-dropdown"
                 >
-                  📊 Reportes
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/sales/history"
-                  className="nav-dropdown-item"
-                >
-                  💰 Historial
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  as={Link}
-                  to="/sales/commissions"
-                  className="nav-dropdown-item"
-                >
-                  💲 Comisiones
-                </NavDropdown.Item>
-              </NavDropdown>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/sales/reports"
+                    className="nav-dropdown-item"
+                  >
+                    📊 Reportes
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/sales/history"
+                    className="nav-dropdown-item"
+                  >
+                    💰 Historial
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/sales/commissions"
+                    className="nav-dropdown-item"
+                  >
+                    💲 Comisiones
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
 
               {/* ✅ Solo los administradores pueden acceder a configuración */}
               {esAdmin && (
