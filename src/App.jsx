@@ -24,7 +24,10 @@ import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Asegura que Bootstrap est�
 
 const App = () => {
   const [user, setUser] = useState(() => {
-    return JSON.parse(localStorage.getItem("user")) || null;
+    if (typeof window !== "undefined" && window.localStorage) {
+      return JSON.parse(localStorage.getItem("user")) || null;
+    }
+    return null;
   });
 
   // ✅ Mantener sesión activa y verificar usuario al iniciar
