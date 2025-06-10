@@ -112,6 +112,13 @@ const NavigationBar = ({ user, setUser }) => {
                   >
                     📊 Inventario
                   </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/products/labels"
+                    className="nav-dropdown-item"
+                  >
+                    🏷️ Generar Etiquetas
+                  </NavDropdown.Item>{" "}
                 </NavDropdown>
               )}
 

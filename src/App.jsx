@@ -15,6 +15,7 @@ import Commissions from "./pages/Commissions";
 import AddProduct from "./pages/AddProduct";
 import ProductList from "./pages/ProductList";
 import Inventory from "./pages/Inventory";
+import Labels from "./pages/Labels";
 import CreateUser from "./pages/CreateUser";
 import Schedules from "./pages/Schedules";
 import Attendance from "./pages/Attendance";
@@ -125,6 +126,17 @@ const App = () => {
           element={
             user && user.rol === "administrador" ? (
               <Inventory />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        <Route
+          path="/products/labels"
+          element={
+            user && user.rol === "administrador" ? (
+              <Labels />
             ) : (
               <Navigate to="/" />
             )
