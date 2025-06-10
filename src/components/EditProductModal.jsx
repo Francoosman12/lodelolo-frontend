@@ -82,10 +82,10 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "image") {
+    if (name === "imagen") {
       setFormData((prevData) => ({
         ...prevData,
-        image: files.length > 0 ? files[0] : null,
+        imagen: files.length > 0 ? files[0] : null,
       }));
     } else if (name === "precio_costo" || name === "precio_publico") {
       let inputValue = value.replace(/[^0-9]/g, ""); // ✅ Solo números
@@ -152,25 +152,29 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Filtrar solo los campos que fueron modificados
-    const updatedFields = Object.entries(formData).reduce(
-      (acc, [key, value]) => {
-        if (value !== product[key]) {
-          // ✅ Comparar con el valor actual
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-    );
+    const formDataToSend = new FormData();
 
-    if (Object.keys(updatedFields).length === 0) {
-      alert("⚠️ No se han realizado cambios en el producto.");
-      return;
+    // ✅ Agregar los campos modificados a `FormData`
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== product[key]) {
+        formDataToSend.append(key, value);
+      }
+    });
+
+    // ✅ Asegurar que el campo de imagen se llame "imagen" (igual que en `createProduct`)
+    if (selectedFile) {
+      formDataToSend.append("imagen", selectedFile);
+    }
+
+    // 🔍 Verificar qué datos se están enviando al backend
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`📩 Enviando: ${key} ->`, value);
     }
 
     try {
-      await axios.put(`${API_URL}/products/${product._id}`, updatedFields);
+      await axios.put(`${API_URL}/products/${product._id}`, formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" }, // ✅ Necesario para enviar archivos
+      });
 
       alert("✅ Producto actualizado correctamente.");
       refreshProducts();
@@ -181,7 +185,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
         error.response?.data || error
       );
       alert(
-        `⚠️ Hubo un error al actualizar el producto: ${
+        `⚠️ Error al actualizar producto: ${
           error.response?.data?.message || error.message
         }`
       );
@@ -207,7 +211,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
               />
             </div>
             <Form.Label>Actualizar Imagen</Form.Label>
-            <Form.Control type="file" name="image" onChange={handleChange} />
+            <Form.Control type="file" name="imagen" onChange={handleChange} />
           </Form.Group>
 
           <Row>
