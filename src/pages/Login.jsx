@@ -45,7 +45,7 @@ const Login = ({ setUser }) => {
         >
           <h2 className="fw-bold mb-4">Iniciar Sesión</h2>
 
-          <Form className="w-75" onSubmit={handleSubmit}>
+          <Form className="w-100" onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <div className="input-container">
