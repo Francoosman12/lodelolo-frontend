@@ -74,6 +74,9 @@ const Inventory = () => {
           "Última Actualización": product.fecha_ultima_actualizacion
             ? new Date(product.fecha_ultima_actualizacion).toLocaleDateString()
             : "N/A", // ✅ Ahora igual que tu código en el frontend
+          "Fecha de Vencimiento": product.fecha_vencimiento
+            ? new Date(product.fecha_vencimiento).toLocaleDateString("es-ES")
+            : "N/A",
         };
       })
     );
@@ -82,7 +85,7 @@ const Inventory = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
     XLSX.writeFile(workbook, "Inventario.xlsx");
   };
-  
+
   return (
     <Container className="my-4 mt-5 mb-5 pt-5 pb-5">
       <h1 className="text-center" style={{ color: "#1D3557" }}>
@@ -122,6 +125,7 @@ const Inventory = () => {
               <th>Estado</th>
               <th>Creado</th>
               <th>Última Actualización</th>
+              <th>Fecha de Vencimiento</th>
             </tr>
           </thead>
           <tbody>
@@ -182,6 +186,11 @@ const Inventory = () => {
                   {new Date(
                     product.fecha_ultima_actualizacion
                   ).toLocaleDateString()}
+                </td>
+                <td>
+                  {new Date(product.fecha_vencimiento).toLocaleDateString(
+                    "es-ES"
+                  )}
                 </td>
               </tr>
             ))}

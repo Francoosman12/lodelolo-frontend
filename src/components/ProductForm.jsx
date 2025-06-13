@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import "../styles/ProductForm.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ProductForm = ({
   formData,
@@ -155,6 +157,27 @@ const ProductForm = ({
                 value={formData.precio_publico || "0,00"}
                 onChange={handleChange}
                 placeholder="Ejemplo: 2.000,00"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label style={{ color: "#213547" }}>
+                Fecha de Vencimiento
+              </Form.Label>
+              <DatePicker
+                style={{ backgroundColor: "#fff" }}
+                selected={
+                  formData.fecha_vencimiento
+                    ? new Date(formData.fecha_vencimiento)
+                    : null
+                }
+                onChange={(date) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    fecha_vencimiento: date,
+                  }))
+                }
+                dateFormat="yyyy-MM-dd"
               />
             </Form.Group>
 

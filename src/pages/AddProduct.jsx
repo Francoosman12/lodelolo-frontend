@@ -20,6 +20,7 @@ const AddProduct = () => {
     imagen_url: "",
     sucursal: "",
     image: null,
+    fecha_vencimiento: "",
   });
 
   const [sucursales, setSucursales] = useState([]);
@@ -54,19 +55,25 @@ const AddProduct = () => {
         ...prevData,
         image: files.length > 0 ? files[0] : null,
       }));
+    } else if (name === "fecha_vencimiento") {
+      console.log("📅 Fecha seleccionada:", value);
+      setFormData((prevData) => ({
+        ...prevData,
+        fecha_vencimiento: value ? new Date(value) : null, // ✅ Almacena como `Date`
+      }));
     } else if (name === "precio_costo" || name === "precio_publico") {
-      let inputValue = value.replace(/[^0-9]/g, ""); // ✅ Solo números
+      let inputValue = value.replace(/[^0-9]/g, "");
 
       while (inputValue.length < 3) {
-        inputValue = "0" + inputValue; // ✅ Rellenar con ceros al inicio
+        inputValue = "0" + inputValue;
       }
 
-      const integerPart = inputValue.slice(0, -2); // ✅ Parte entera
-      const decimalPart = inputValue.slice(-2); // ✅ Últimos 2 dígitos como decimales
+      const integerPart = inputValue.slice(0, -2);
+      const decimalPart = inputValue.slice(-2);
 
       const formattedIntegerPart = integerPart
-        .replace(/^0+(?!$)/, "") // ✅ Evitar ceros innecesarios
-        .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // ✅ Separación de miles con puntos
+        .replace(/^0+(?!$)/, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
       const formattedValue = `${formattedIntegerPart || "0"},${decimalPart}`;
 
@@ -111,6 +118,15 @@ const AddProduct = () => {
 
     if (formData.image && formData.image instanceof File) {
       formDataToSend.append("image", formData.image);
+    }
+
+    if (formData.fecha_vencimiento) {
+      console.log("📅 Fecha antes de enviar:", formData.fecha_vencimiento);
+
+      formDataToSend.append(
+        "fecha_vencimiento",
+        formData.fecha_vencimiento.toISOString()
+      ); // ✅ Enviar en formato ISO
     }
 
     console.log(

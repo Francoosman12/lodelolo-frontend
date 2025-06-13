@@ -133,7 +133,14 @@ const Sales = ({ user }) => {
   };
 
   const handleAddToCart = (product) => {
-    setCart([...cart, product]);
+    if (!product || product.cantidad_stock <= 0) {
+      console.warn(
+        "⚠️ Este producto no tiene stock suficiente y no puede agregarse."
+      );
+      return; // 🚫 Evita que se agregue
+    }
+
+    setCart((prevCart) => [...prevCart, product]);
   };
 
   const handleRemoveFromCart = (index) => {
@@ -344,8 +351,13 @@ const Sales = ({ user }) => {
                             : "❌ Agotado"}
                         </Card.Text>
                         <Button
-                          variant="primary"
-                          onClick={() => handleAddToCart(product)}
+                          variant={
+                            product.cantidad_stock > 0 ? "primary" : "secondary"
+                          }
+                          onClick={() =>
+                            product.cantidad_stock > 0 &&
+                            handleAddToCart(product)
+                          } // ✅ Bloquear función
                           disabled={product.cantidad_stock === 0}
                         >
                           {product.cantidad_stock > 0
