@@ -3,6 +3,9 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import "../styles/ProductForm.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ProductForm = ({
   formData,
@@ -12,6 +15,8 @@ const ProductForm = ({
   sucursales,
   setFormData,
 }) => {
+  const [suppliers, setSuppliers] = useState([]);
+
   const [rubrosData, setRubrosData] = useState([]);
   // Estado para controlar si el SKU se genera automáticamente
   const [autoGenerateSKU, setAutoGenerateSKU] = useState(true);
@@ -22,6 +27,13 @@ const ProductForm = ({
     setAutoGenerateSKU(isAuto);
     setFormData({ ...formData, sku: isAuto ? "" : formData.sku });
   };
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/suppliers`)
+      .then((res) => setSuppliers(res.data))
+      .catch((err) => console.error("Error al cargar proveedores:", err));
+  }, []);
 
   // ✅ Cargar `rubros.json` desde el frontend
   useEffect(() => {
@@ -233,9 +245,16 @@ const ProductForm = ({
               <Form.Control
                 type="text"
                 name="fabricante"
+                list="proveedoresList"
                 value={formData.fabricante}
                 onChange={handleChange}
+                placeholder="Escribí o seleccioná un proveedor..."
               />
+              <datalist id="proveedoresList">
+                {suppliers.map((s) => (
+                  <option key={s._id} value={s.nombre} />
+                ))}
+              </datalist>
             </Form.Group>
 
             <Form.Group className="mb-3">

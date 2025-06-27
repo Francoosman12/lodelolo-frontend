@@ -1,0 +1,29 @@
+/* Estilos para las pestañas de navegación */
+.nav-tabs {
+  border-bottom: 2px solid #1D3557;
+}
+
+.nav-tabs .nav-item {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-tabs .nav-link {
+  color: #1D3557 !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  background-color: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #1D3557 !important;
+  background-color: rgba(29, 53, 87, 0.05);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #1D3557 !important;
+  color: #fff !important;
+  border-radius: 5px;
+}

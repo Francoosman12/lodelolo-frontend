@@ -9,12 +9,14 @@ import NavigationBar from "./components/NavigationBar";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Sales from "./pages/Sales";
+import Movements from "./pages/Movements";
 import Reports from "./pages/Reports";
 import History from "./pages/History";
 import Commissions from "./pages/Commissions";
 import AddProduct from "./pages/AddProduct";
 import ProductList from "./pages/ProductList";
 import Inventory from "./pages/Inventory";
+import Suppliers from "./pages/Suppliers";
 import Labels from "./pages/Labels";
 import CreateUser from "./pages/CreateUser";
 import Schedules from "./pages/Schedules";
@@ -69,6 +71,16 @@ const App = () => {
         />
 
         {/* ✅ Solo los administradores pueden acceder a reportes, historial y comisiones */}
+        <Route
+          path="/sales/movements"
+          element={
+            user && user.rol === "administrador" ? (
+              <Movements />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
         <Route
           path="/sales/reports"
           element={
@@ -126,6 +138,17 @@ const App = () => {
           element={
             user && user.rol === "administrador" ? (
               <Inventory />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        <Route
+          path="/products/suppliers"
+          element={
+            user && user.rol === "administrador" ? (
+              <Suppliers />
             ) : (
               <Navigate to="/" />
             )

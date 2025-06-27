@@ -114,6 +114,13 @@ const NavigationBar = ({ user, setUser }) => {
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     as={Link}
+                    to="/products/suppliers"
+                    className="nav-dropdown-item"
+                  >
+                    🚚 Proveedores
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    as={Link}
                     to="/products/labels"
                     className="nav-dropdown-item"
                   >
@@ -164,6 +171,13 @@ const NavigationBar = ({ user, setUser }) => {
                   }
                   id="sales-dropdown"
                 >
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/sales/movements"
+                    className="nav-dropdown-item"
+                  >
+                    🏦 Movimientos de Caja
+                  </NavDropdown.Item>
                   <NavDropdown.Item
                     as={Link}
                     to="/sales/reports"
