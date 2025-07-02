@@ -44,10 +44,13 @@ const Reports = () => {
             <tr>
               <th>Fecha</th>
               <th>Vendedor</th>
+              <th>Cliente</th>
+              <th>Dirección</th>
+              <th>Detalles</th>
               <th>Sucursal</th>
               <th>Productos Vendidos</th>
-              <th>Total</th>
               <th>Método de Pago</th>
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +67,9 @@ const Reports = () => {
                   <td>
                     {sale.id_vendedor ? sale.id_vendedor.nombre : "Desconocido"}
                   </td>
+                  <td>{sale.cliente}</td>
+                  <td>{sale.direccion_entrega}</td>
+                  <td>{sale.comentario}</td>
                   <td>
                     {sale.sucursal ? sale.sucursal.nombre : "Sin Sucursal"}
                   </td>
@@ -78,6 +84,7 @@ const Reports = () => {
                         ))
                       : "Sin productos"}
                   </td>
+                  <td>{sale.metodo_pago.tipo}</td>
                   <td className="fw-bold">
                     $
                     {Number(
@@ -87,14 +94,13 @@ const Reports = () => {
                         .replace(",", ".")
                     ).toFixed(2)}
                   </td>
-                  <td>{sale.metodo_pago.tipo}</td>
                 </tr>
               ))
             )}
           </tbody>
           <tfoot>
             <tr className="bg-light fw-bold">
-              <td colSpan="4" className="text-end">
+              <td colSpan="7" className="text-end">
                 Total General:
               </td>
               <td className="text-success">$ {totalGeneral.toFixed(2)}</td>

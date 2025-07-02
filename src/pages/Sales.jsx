@@ -21,6 +21,9 @@ const Sales = ({ user }) => {
     moneda: "pesos",
     monto: total,
   });
+  const [cliente, setCliente] = useState("");
+  const [direccionEntrega, setDireccionEntrega] = useState("");
+  const [comentario, setComentario] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -111,6 +114,9 @@ const Sales = ({ user }) => {
             ? paymentDetails
             : { [paymentMethod]: paymentDetails },
       },
+      comentario,
+      direccion_entrega: direccionEntrega,
+      cliente,
     };
 
     console.log("🛒 Datos enviados al backend:", saleData);
@@ -282,6 +288,37 @@ const Sales = ({ user }) => {
               <option value="tarjeta">Tarjeta</option>
               <option value="combinado">Combinado</option>
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="nombreCliente">
+            <Form.Label>👤 Nombre del cliente</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ej: Juan Pérez"
+              value={cliente}
+              onChange={(e) => setCliente(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="direccionEntrega">
+            <Form.Label>🏠 Dirección de entrega</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ej: Calle Falsa 123"
+              value={direccionEntrega}
+              onChange={(e) => setDireccionEntrega(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="comentario">
+            <Form.Label>📝 Comentario</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={2}
+              placeholder="Ej: Sin hielo / Llevar servilletas"
+              value={comentario}
+              onChange={(e) => setComentario(e.target.value)}
+            />
           </Form.Group>
 
           <Button

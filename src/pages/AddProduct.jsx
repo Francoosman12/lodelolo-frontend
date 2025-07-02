@@ -34,16 +34,15 @@ const AddProduct = () => {
 
   // ✅ Obtener `rubros.json` desde el frontend
   useEffect(() => {
-    const fetchRubros = async () => {
+    const fetchRubrics = async () => {
       try {
-        const response = await fetch("/data/rubros.json");
-        const data = await response.json();
-        setRubrosData(data.rubros);
+        const response = await axios.get(`${API_URL}/rubrics`);
+        setRubrosData(response.data); // cada rubro tiene .name y .categories[]
       } catch (error) {
-        console.error("Error al cargar rubros:", error);
+        console.error("Error loading rubrics:", error);
       }
     };
-    fetchRubros();
+    fetchRubrics();
   }, []);
 
   // ✅ Manejar cambios en los formularios
@@ -96,7 +95,15 @@ const AddProduct = () => {
       formDataToSend.append("sku", formData.sku);
     }
 
-    formDataToSend.append("atributos", JSON.stringify(formData.atributos));
+    const atributosElegidos = formData.attributes
+      .filter((attr) => attr.name === formData.selectedOption)
+      .map((attr) => ({
+        nombre: attr.name,
+        tipo: attr.type,
+        valor: attr.value,
+      }));
+
+    formDataToSend.append("atributos", JSON.stringify(atributosElegidos));
 
     const precioCosto = formData.precio_costo
       .replace(/\./g, "")

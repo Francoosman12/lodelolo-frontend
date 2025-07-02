@@ -37,50 +37,47 @@ const ProductForm = ({
 
   // ✅ Cargar `rubros.json` desde el frontend
   useEffect(() => {
-    const fetchRubros = async () => {
+    const fetchRubrics = async () => {
       try {
-        const response = await fetch("/data/rubros.json");
-        const data = await response.json();
-        setRubrosData(data.rubros);
+        const response = await axios.get(`${API_URL}/rubrics`);
+        setRubrosData(response.data); // array de rubrics desde el backend
       } catch (error) {
-        console.error("Error al cargar rubros:", error);
+        console.error("Error al cargar rubrics:", error);
       }
     };
-    fetchRubros();
+    fetchRubrics();
   }, []);
 
   // ✅ Manejar cambio de rubro y actualizar categorías
   const handleRubroChange = (e) => {
     const selectedRubro = e.target.value;
-    const rubroSeleccionado = rubrosData.find(
-      (r) => r.nombre === selectedRubro
-    );
+    const selectedRubric = rubrosData.find((r) => r.name === selectedRubro);
 
     setFormData((prevData) => ({
       ...prevData,
       rubro: selectedRubro,
-      categorias: rubroSeleccionado ? rubroSeleccionado.categorias : [],
+      categorias: selectedRubric ? selectedRubric.categories : [],
       categoria: "",
-      atributos: [],
+      attributes: [],
     }));
   };
 
   // ✅ Manejar cambio de categoría y asignar atributos
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
-    const categoriaSeleccionada = formData.categorias.find(
-      (c) => c.nombre === selectedCategory
+    const selectedCategoryObj = formData.categorias.find(
+      (c) => c.name === selectedCategory
     );
 
     setFormData((prevData) => ({
       ...prevData,
       categoria: selectedCategory,
-      atributos: categoriaSeleccionada
-        ? categoriaSeleccionada.atributos.map((attr) => ({
-            nombre: attr.nombre,
-            tipo: attr.tipo,
-            valores: attr.valores || [],
-            valor: attr.tipo === "lista" ? attr.valores[0] || "" : "",
+      attributes: selectedCategoryObj
+        ? selectedCategoryObj.attributes.map((attr) => ({
+            name: attr.name,
+            type: attr.type,
+            values: attr.values || [],
+            value: attr.type === "list" ? attr.values[0] || "" : "",
           }))
         : [],
     }));
@@ -118,9 +115,9 @@ const ProductForm = ({
                 <option value="" disabled>
                   Seleccione un rubro
                 </option>
-                {rubrosData.map((rubro) => (
-                  <option key={rubro.nombre} value={rubro.nombre}>
-                    {rubro.nombre}
+                {rubrosData.map((r) => (
+                  <option key={r.name} value={r.name}>
+                    {r.name}
                   </option>
                 ))}
               </Form.Select>
@@ -138,9 +135,9 @@ const ProductForm = ({
                 <option value="" disabled>
                   Seleccione una categoría
                 </option>
-                {formData.categorias?.map((categoria) => (
-                  <option key={categoria.nombre} value={categoria.nombre}>
-                    {categoria.nombre}
+                {formData.categorias?.map((c) => (
+                  <option key={c.name} value={c.name}>
+                    {c.name}
                   </option>
                 ))}
               </Form.Select>
@@ -301,38 +298,28 @@ const ProductForm = ({
           </Col>
         </Row>
 
-        {/* ✅ Renderizar atributos dinámicos */}
-        {Array.isArray(formData.atributos) &&
-          formData.atributos.length > 0 &&
-          formData.atributos.map((attr, index) => (
-            <Form.Group className="mb-3" key={index}>
-              <Form.Label>{attr.nombre}</Form.Label>
-              {attr.tipo === "lista" ? (
-                <Form.Select
-                  name={attr.nombre}
-                  value={attr.valor}
-                  onChange={(e) => {
-                    const updatedAttributes = [...formData.atributos];
-                    updatedAttributes[index].valor = e.target.value;
-                    setFormData({ ...formData, atributos: updatedAttributes });
-                  }}
-                >
-                  {attr.valores.map((val, i) => (
-                    <option key={i} value={val}>
-                      {val}
-                    </option>
-                  ))}
-                </Form.Select>
-              ) : (
-                <Form.Control
-                  type="text"
-                  name={attr.nombre}
-                  value={attr.valor}
-                  onChange={handleChange}
-                />
-              )}
+        {Array.isArray(formData.attributes) &&
+          formData.attributes.length > 0 && (
+            <Form.Group className="mb-3">
+              <Form.Label>Seleccioná una opción</Form.Label>
+              <Form.Select
+                value={formData.selectedOption || ""}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    selectedOption: e.target.value,
+                  }))
+                }
+              >
+                <option value="">Elegí una opción</option>
+                {formData.attributes.map((attr, index) => (
+                  <option key={index} value={attr.name}>
+                    {attr.name}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
-          ))}
+          )}
 
         <Button type="submit">Agregar Producto</Button>
       </Form>

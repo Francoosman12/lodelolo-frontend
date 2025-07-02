@@ -8,47 +8,69 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
   const [formData, setFormData] = useState({
     nombre: "",
     rubro: "",
+    categorias: [],
     categoria: "",
-    atributos: [],
-    precio_costo: "0.00",
-    precio_publico: "0.00",
+    attributes: [],
+    selectedOption: "",
+    precio_costo: "0,00",
+    precio_publico: "0,00",
     cantidad_stock: "",
     fabricante: "",
     sucursal: "",
     activo: false,
     imagen_url: "",
-    categorias: [],
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [rubrosData, setRubrosData] = useState([]);
   const [sucursales, setSucursales] = useState([]);
 
+  // Obtener sucursales
   useEffect(() => {
     axios.get(`${API_URL}/sucursales`).then((res) => setSucursales(res.data));
   }, []);
 
+  // Obtener rubros desde backend
   useEffect(() => {
     const fetchRubros = async () => {
       try {
-        const response = await fetch("/data/rubros.json"); // ✅ Cargar archivo local
-        const data = await response.json();
-        setRubrosData(data.rubros);
+        const response = await axios.get(`${API_URL}/rubrics`);
+        setRubrosData(response.data);
       } catch (error) {
-        console.error("Error al cargar rubros:", error);
+        console.error("❌ Error al cargar rubros:", error);
       }
     };
-
     fetchRubros();
   }, []);
 
+  // Cargar datos del producto + atributos según categoría
   useEffect(() => {
-    if (product) {
-      setFormData({
+    if (product && rubrosData.length > 0) {
+      const rubroSeleccionado = rubrosData.find(
+        (r) => r.name === product.rubro
+      );
+
+      const categoriaSeleccionada = rubroSeleccionado?.categories.find(
+        (c) => c.name === product.categoria
+      );
+
+      const atributosBase = categoriaSeleccionada
+        ? categoriaSeleccionada.attributes.map((attr) => ({
+            name: attr.name,
+            type: attr.type,
+            values: attr.values || [],
+            value: attr.type === "list" ? attr.values?.[0] || "" : "",
+          }))
+        : [];
+
+      setFormData((prev) => ({
+        ...prev,
         nombre: product.nombre || "",
         rubro: product.rubro || "",
         categoria: product.categoria || "",
-        atributos: product.atributos || [],
+        categorias: rubroSeleccionado?.categories || [],
+        attributes: atributosBase,
+        selectedOption: product.atributos?.[0]?.name || "",
         precio_costo:
           product.precio_costo?.$numberDecimal?.replace(".", ",") ||
           product.precio_costo?.toString().replace(".", ",") ||
@@ -62,90 +84,64 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
         sucursal: product.sucursal?._id || "",
         activo: product.activo || false,
         imagen_url: product.imagen_url || "",
-        categorias: [],
-      });
-
-      // ✅ Si el producto tiene un rubro, cargar las categorías correspondientes
-      const rubroSeleccionado = rubrosData.find(
-        (r) => r.nombre === product.rubro
-      );
-      if (rubroSeleccionado) {
-        setFormData((prevData) => ({
-          ...prevData,
-          categorias: rubroSeleccionado.categorias,
-        }));
-      }
+      }));
     }
   }, [product, rubrosData]);
 
-  // ✅ Manejo de cambios en los inputs
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
     if (name === "imagen") {
-      setFormData((prevData) => ({
-        ...prevData,
-        imagen: files.length > 0 ? files[0] : null,
-      }));
+      setSelectedFile(files[0] || null);
     } else if (name === "precio_costo" || name === "precio_publico") {
-      let inputValue = value.replace(/[^0-9]/g, ""); // ✅ Solo números
-
-      while (inputValue.length < 3) {
-        inputValue = "0" + inputValue; // ✅ Rellenar con ceros al inicio
-      }
-
-      const integerPart = inputValue.slice(0, -2); // ✅ Parte entera
-      const decimalPart = inputValue.slice(-2); // ✅ Últimos 2 dígitos como decimales
-
+      let inputValue = value.replace(/[^0-9]/g, "");
+      while (inputValue.length < 3) inputValue = "0" + inputValue;
+      const integerPart = inputValue.slice(0, -2);
+      const decimalPart = inputValue.slice(-2);
       const formattedIntegerPart = integerPart
-        .replace(/^0+(?!$)/, "") // ✅ Evitar ceros innecesarios
-        .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // ✅ Separación de miles con puntos
-
+        .replace(/^0+(?!$)/, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       const formattedValue = `${formattedIntegerPart || "0"},${decimalPart}`;
-
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: formattedValue,
-      }));
+      setFormData((prevData) => ({ ...prevData, [name]: formattedValue }));
     } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
-  // ✅ Actualizar categorías cuando cambie el rubro
   const handleRubroChange = (e) => {
     const selectedRubro = e.target.value;
-    const rubroSeleccionado = rubrosData.find(
-      (r) => r.nombre === selectedRubro
-    );
+    const rubroSeleccionado = rubrosData.find((r) => r.name === selectedRubro);
 
     setFormData((prevData) => ({
       ...prevData,
       rubro: selectedRubro,
-      categorias: rubroSeleccionado ? rubroSeleccionado.categorias : [],
+      categorias: rubroSeleccionado?.categories || [],
       categoria: "",
-      atributos: [],
+      attributes: [],
+      selectedOption: "",
     }));
   };
 
-  // ✅ Manejar cambio de categoría y asignar atributos
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
     const categoriaSeleccionada = formData.categorias.find(
-      (c) => c.nombre === selectedCategory
+      (c) => c.name === selectedCategory
     );
+
+    const mappedAttributes = categoriaSeleccionada
+      ? categoriaSeleccionada.attributes.map((attr) => ({
+          name: attr.name,
+          type: attr.type,
+          values: attr.values || [],
+          value: attr.type === "list" ? attr.values?.[0] || "" : "",
+        }))
+      : [];
 
     setFormData((prevData) => ({
       ...prevData,
       categoria: selectedCategory,
-      atributos: categoriaSeleccionada
-        ? categoriaSeleccionada.atributos.map((attr) => ({
-            nombre: attr.nombre,
-            tipo: attr.tipo,
-            valores: attr.valores || [],
-            valor: attr.tipo === "lista" ? attr.valores[0] || "" : "",
-          }))
-        : [],
+      attributes: mappedAttributes,
+      selectedOption: "",
     }));
   };
 
@@ -154,36 +150,40 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
 
     const formDataToSend = new FormData();
 
-    // ✅ Agregar los campos modificados a `FormData`
+    const atributosElegidos = formData.attributes
+      .filter((attr) => attr.name === formData.selectedOption)
+      .map((attr) => ({
+        nombre: attr.name,
+        tipo: attr.type,
+        valor: attr.value,
+      }));
+
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== product[key]) {
+      if (key === "attributes") {
+        formDataToSend.append("atributos", JSON.stringify(atributosElegidos));
+      } else if (key !== "categorias") {
         formDataToSend.append(key, value);
       }
     });
 
-    // ✅ Asegurar que el campo de imagen se llame "imagen" (igual que en `createProduct`)
     if (selectedFile) {
       formDataToSend.append("imagen", selectedFile);
     }
 
-    // 🔍 Verificar qué datos se están enviando al backend
+    // 🔍 Log útil para debug
     for (let [key, value] of formDataToSend.entries()) {
-      console.log(`📩 Enviando: ${key} ->`, value);
+      console.log("✅ Enviando:", key, value);
     }
 
     try {
       await axios.put(`${API_URL}/products/${product._id}`, formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" }, // ✅ Necesario para enviar archivos
+        headers: { "Content-Type": "multipart/form-data" },
       });
-
       alert("✅ Producto actualizado correctamente.");
       refreshProducts();
       handleClose();
     } catch (error) {
-      console.error(
-        "❌ Error al actualizar producto:",
-        error.response?.data || error
-      );
+      console.error("❌ Error al actualizar producto:", error);
       alert(
         `⚠️ Error al actualizar producto: ${
           error.response?.data?.message || error.message
@@ -216,7 +216,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
 
           <Row>
             <Col md={6}>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
@@ -239,36 +239,57 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
                     Seleccione un rubro
                   </option>
                   {rubrosData.map((rubro) => (
-                    <option key={rubro.nombre} value={rubro.nombre}>
-                      {rubro.nombre}
+                    <option key={rubro._id} value={rubro.name}>
+                      {rubro.name}
                     </option>
                   ))}
                 </Form.Select>
               </Form.Group>
 
-              <Form.Select
-                name="categoria"
-                value={formData.categoria}
-                onChange={handleCategoryChange}
-                required
-              >
-                <option value="" disabled>
-                  Seleccione una categoría
-                </option>
-                {Array.isArray(formData.categorias)
-                  ? formData.categorias.map((categoria, index) => (
-                      <option
-                        key={`${categoria.nombre}-${index}`}
-                        value={categoria.nombre}
-                      >
-                        {categoria.nombre}
-                      </option>
-                    ))
-                  : null}{" "}
-                {/* ✅ Generamos un key único combinando el nombre y el índice */}
-              </Form.Select>
+              <Form.Group className="mb-3">
+                <Form.Label>Categoría</Form.Label>
+                <Form.Select
+                  name="categoria"
+                  value={formData.categoria}
+                  onChange={handleCategoryChange}
+                  required
+                >
+                  <option value="" disabled>
+                    Seleccione una categoría
+                  </option>
+                  {formData.categorias?.map((categoria, index) => (
+                    <option key={index} value={categoria.name}>
+                      {categoria.name}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
 
-              <Form.Group>
+              {/* Atributos como opciones */}
+              {Array.isArray(formData.attributes) &&
+                formData.attributes.length > 0 && (
+                  <Form.Group className="mb-3">
+                    <Form.Label>Seleccioná una opción</Form.Label>
+                    <Form.Select
+                      value={formData.selectedOption || ""}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          selectedOption: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="">Elegí una opción</option>
+                      {formData.attributes.map((attr, index) => (
+                        <option key={index} value={attr.name}>
+                          {attr.name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                )}
+
+              <Form.Group className="mb-3">
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   type="number"
@@ -281,7 +302,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
             </Col>
 
             <Col md={6}>
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Precio Costo</Form.Label>
                 <Form.Control
                   type="text"
@@ -292,7 +313,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
                 />
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Precio Público</Form.Label>
                 <Form.Control
                   type="text"
@@ -303,7 +324,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
                 />
               </Form.Group>
 
-              <Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>Fabricante</Form.Label>
                 <Form.Control
                   type="text"
@@ -349,7 +370,7 @@ const EditProductModal = ({ show, handleClose, product, refreshProducts }) => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="mt-3">
             Guardar cambios
           </Button>
         </Form>
