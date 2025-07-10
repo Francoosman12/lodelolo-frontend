@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Tab, Row, Col, Nav } from "react-bootstrap";
 import RubricManager from "../components/RubricManager";
 import RubricList from "../components/RubricList";
+import SucursalList from "../components/SucursalList";
 
 const Settings = () => {
   const [key, setKey] = useState("sucursales");
@@ -39,8 +40,10 @@ const Settings = () => {
 
             <Tab.Content>
               <Tab.Pane eventKey="sucursales">
-                {/* Aquí va el contenido de la sección Sucursales */}
-                <p>Configuración de sucursales.</p>
+                <h5 className="mb-3 text-primary">
+                  📍 Configuración de sucursales
+                </h5>
+                <SucursalList />
               </Tab.Pane>
               <Tab.Pane eventKey="productos">
                 <RubricManager />

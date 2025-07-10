@@ -174,7 +174,7 @@ const ProductForm = ({
                 Fecha de Vencimiento
               </Form.Label>
               <DatePicker
-                style={{ backgroundColor: "#fff" }}
+                className="vencimiento-picker m-2"
                 selected={
                   formData.fecha_vencimiento
                     ? new Date(formData.fecha_vencimiento)
@@ -232,7 +232,7 @@ const ProductForm = ({
                 name="descripcion"
                 value={formData.descripcion}
                 onChange={handleChange}
-                required
+                // required
               />
             </Form.Group>
 

@@ -217,7 +217,7 @@ const NavigationBar = ({ user, setUser }) => {
             {user && (
               <Button
                 onClick={handleLogout}
-                className="nav-link logout-btn d-flex align-items-center gap-1"
+                className="nav-link logout-btn d-flex align-items-center gap-1 px-2"
               >
                 <FaSignOutAlt /> Cerrar Sesión
               </Button>

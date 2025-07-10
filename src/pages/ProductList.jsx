@@ -107,7 +107,7 @@ const ProductTable = () => {
       <ChartComponent products={products} />
 
       <h2 className="text-center mb-3" style={{ color: "#1D3557" }}>
-        Gestión de Productos
+        Listado de Productos
       </h2>
       <p className="text-center text-muted mb-4">
         Busca, filtra y gestiona los productos con facilidad.
