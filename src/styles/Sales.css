@@ -116,10 +116,12 @@
 @media (max-width: 768px) {
   .cart-section {
     padding: 10px;
+    position: inherit;
   }
 
   .cart-table {
     overflow-x: auto; /* ✅ Permite scroll horizontal en móviles */
     display: block;
   }
+
 }

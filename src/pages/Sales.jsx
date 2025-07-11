@@ -1,7 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Card,
+  InputGroup,
+} from "react-bootstrap";
 import "../styles/Sales.css";
+// import ScannerContainer from "../components/ScannerContainer";
+import SmartScannerHybrid from "../components/SmartScannerHybrid";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -332,13 +342,49 @@ const Sales = ({ user }) => {
 
         {/* ✅ Sección 2: Productos */}
         <Col md={8} className="product-section pt-4">
-          <Form.Control
-            type="text"
-            placeholder="🔍 Buscar producto por nombre, SKU o categoría..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-bar mb-3 mt-5"
-          />
+          <Row className="mb-3 mt-5 align-items-center">
+            <Col xs={6} md={6}>
+              <div style={{ position: "relative", width: "100%" }}>
+                <Form.Control
+                  type="text"
+                  placeholder="🔍 Buscar producto por nombre, SKU o categoría..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="search-bar"
+                  style={{ paddingRight: "2.5rem" }} // espacio para la X
+                />
+
+                {search && (
+                  <Button
+                    variant="link"
+                    onClick={() => setSearch("")}
+                    style={{
+                      width: "20%",
+                      position: "absolute",
+                      top: "50%",
+                      right: "0", // 🔄 Podés ajustar esto si está demasiado cerca del borde
+                      transform: "translateY(-50%)",
+                      padding: 0,
+                      lineHeight: 1,
+                      fontSize: "1.0rem",
+                      color: "#6c757d",
+                      background: "transparent",
+                      border: "none",
+                      boxShadow: "none",
+                      cursor: "pointer", // 👈 Agrega UX visual
+                    }}
+                  >
+                    ❌
+                  </Button>
+                )}
+              </div>
+            </Col>
+            <Col xs={6} md={6}>
+              {/* <ScannerContainer setSearch={setSearch} /> */}
+              <SmartScannerHybrid setSearch={setSearch} />
+            </Col>
+          </Row>
+
           <Row>
             {products.length === 0 ? (
               <p className="text-center text-danger">
