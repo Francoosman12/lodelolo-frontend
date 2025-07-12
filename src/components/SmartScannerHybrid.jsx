@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Modal, Button, Spinner } from "react-bootstrap";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 import Quagga from "quagga";
 
 const SmartScannerHybrid = ({ setSearch }) => {
@@ -57,7 +57,7 @@ const SmartScannerHybrid = ({ setSearch }) => {
         {
           fps: 10,
           qrbox: 250,
-          supportedScanTypes: [Html5QrcodeScanner.SCAN_TYPE_CAMERA], // ✅ cámara trasera
+          supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA], // 👈 cámara trasera
         },
         false
       );
