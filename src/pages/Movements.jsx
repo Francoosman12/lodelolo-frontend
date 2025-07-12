@@ -283,53 +283,55 @@ const Movements = () => {
         ➕ Nuevo movimiento
       </Button>
 
-      <table className="table table-striped mt-4">
-        <thead>
-          <tr>
-            <th>Sucursal</th>
-            <th>Responsable</th>
-            <th>Tipo</th>
-            <th>Concepto</th>
-            <th>Monto</th>
-            <th>Método</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {movements.map((mov) => (
-            <tr key={mov._id}>
-              <td>{mov.sucursal?.nombre || "—"}</td>
-              <td>{mov.responsable?.nombre || "—"}</td>
-              <td>{mov.tipo}</td>
-              <td>{mov.concepto}</td>
-              <td>${mov.monto.toLocaleString("es-AR")}</td>
-              <td>{mov.metodo_pago}</td>
-              <td>{new Date(mov.fecha_movimiento).toLocaleString()}</td>
-              <td>
-                <div className="d-flex gap-1">
-                  <Button
-                    variant="success"
-                    size="sm"
-                    onClick={() => handleEdit(mov)}
-                    title="Editar"
-                  >
-                    <FaEdit />
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(mov._id)}
-                    title="Eliminar"
-                  >
-                    <FaTrash />
-                  </Button>
-                </div>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-striped mt-4">
+          <thead>
+            <tr>
+              <th>Sucursal</th>
+              <th>Responsable</th>
+              <th>Tipo</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+              <th>Método</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {movements.map((mov) => (
+              <tr key={mov._id}>
+                <td>{mov.sucursal?.nombre || "—"}</td>
+                <td>{mov.responsable?.nombre || "—"}</td>
+                <td>{mov.tipo}</td>
+                <td>{mov.concepto}</td>
+                <td>${mov.monto.toLocaleString("es-AR")}</td>
+                <td>{mov.metodo_pago}</td>
+                <td>{new Date(mov.fecha_movimiento).toLocaleString()}</td>
+                <td>
+                  <div className="d-flex gap-1">
+                    <Button
+                      variant="success"
+                      size="sm"
+                      onClick={() => handleEdit(mov)}
+                      title="Editar"
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDelete(mov._id)}
+                      title="Eliminar"
+                    >
+                      <FaTrash />
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* 📊 Resumen financiero */}
       <div className="mt-4 p-3 bg-light border rounded">
